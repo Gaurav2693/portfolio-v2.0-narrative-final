@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon Export Utility - Gaurav Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cambay', 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      padding: 48px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Caladea', serif;
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+
+    .favicon-card {
+      background: #1a1a1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .favicon-card h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .favicon-display {
+      background: #000000;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+    }
+
+    .favicon-display svg {
+      image-rendering: crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    .size-info {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 8px;
+    }
+
+    .download-btn {
+      background: #4ade80;
+      color: #000000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      margin-top: 16px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+    }
+
+    .instructions {
+      background: #1a1a1a;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+
+    .instructions h3 {
+      color: #4ade80;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+    }
+
+    .preview-grid {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .preview-item {
+      text-align: center;
+    }
+
+    .preview-box {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 8px;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    code {
+      background: #000000;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #4ade80;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Favicon Export Utility</h1>
+    <p class="subtitle">Portfolio favicon assets - Geometric "G" monogram design</p>
+
+    <div class="instructions">
+      <h3>Export Instructions</h3>
+      <ol>
+        <li>Right-click on each favicon SVG below</li>
+        <li>Select "Save Image As..." or use browser developer tools to export</li>
+        <li>Save as PNG with the corresponding dimensions</li>
+        <li>Alternative: Use an online SVG to PNG converter (e.g., cloudconvert.com)</li>
+        <li>The SVG files are already saved in <code>/public/favicon-*.svg</code></li>
+      </ol>
+    </div>
+
+    <div class="grid">
+      <!-- 16x16 -->
+      <div class="favicon-card">
+        <h2>16 × 16 Favicon</h2>
+        <div class="favicon-display">
+          <svg width="64" height="64" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="16" height="16" fill="#000000"/>
+            <path d="M4 4V12H12V8H8V7H13V13H3V3H13V6H12V4H4Z" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <div class="size-info">Standard browser tab icon</div>
+        <button class="download-btn" onclick="downloadSVG('16x16')">Download SVG</button>
+      </div>
+
+      <!-- 32x32 -->
+      <div class="favicon-card">
+        <h2>32 × 32 Favicon</h2>
+        <div class="favicon-display">
+          <svg width="96" height="96" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" fill="#000000"/>
+            <path d="M8 8V24H24V16H16V14H26V26H6V6H26V12H24V8H8Z" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <div class="size-info">Retina browser icon</div>
+        <button class="download-btn" onclick="downloadSVG('32x32')">Download SVG</button>
+      </div>
+
+      <!-- 48x48 -->
+      <div class="favicon-card">
+        <h2>48 × 48 Favicon</h2>
+        <div class="favicon-display">
+          <svg width="120" height="120" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" fill="#000000"/>
+            <path d="M12 12V36H36V24H24V21H39V39H9V9H39V18H36V12H12Z" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <div class="size-info">High-DPI displays</div>
+        <button class="download-btn" onclick="downloadSVG('48x48')">Download SVG</button>
+      </div>
+
+      <!-- 180x180 -->
+      <div class="favicon-card">
+        <h2>180 × 180 Apple Touch</h2>
+        <div class="favicon-display">
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="180" height="180" fill="#000000" rx="32"/>
+            <path d="M45 45V135H135V90H90V78.75H146.25V146.25H33.75V33.75H146.25V67.5H135V45H45Z" fill="#FFFFFF"/>
+            <rect x="90" y="82.5" width="3" height="11.25" fill="#4ade80" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="size-info">iOS home screen icon</div>
+        <button class="download-btn" onclick="downloadSVG('180x180')">Download SVG</button>
+      </div>
+    </div>
+
+    <!-- Size comparison preview -->
+    <div style="text-align: center; margin-top: 64px;">
+      <h2 style="font-size: 24px; margin-bottom: 24px; color: rgba(255, 255, 255, 0.9);">Size Comparison</h2>
+      <div class="preview-grid">
+        <div class="preview-item">
+          <div class="preview-box">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="16" height="16" fill="#000000"/>
+              <path d="M4 4V12H12V8H8V7H13V13H3V3H13V6H12V4H4Z" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div class="preview-label">16px</div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-box">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" fill="#000000"/>
+              <path d="M8 8V24H24V16H16V14H26V26H6V6H26V12H24V8H8Z" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div class="preview-label">32px</div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-box">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" fill="#000000"/>
+              <path d="M12 12V36H36V24H24V21H39V39H9V9H39V18H36V12H12Z" fill="#FFFFFF"/>
+            </svg>
+          </div>
+          <div class="preview-label">48px</div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-box">
+            <svg width="64" height="64" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="180" height="180" fill="#000000" rx="32"/>
+              <path d="M45 45V135H135V90H90V78.75H146.25V146.25H33.75V33.75H146.25V67.5H135V45H45Z" fill="#FFFFFF"/>
+              <rect x="90" y="82.5" width="3" height="11.25" fill="#4ade80" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="preview-label">180px (scaled)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function downloadSVG(size) {
+      const link = document.createElement('a');
+      link.href = `/favicon-${size}.svg`;
+      link.download = `favicon-${size}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

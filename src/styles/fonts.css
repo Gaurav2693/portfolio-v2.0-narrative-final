@@ -1,0 +1,137 @@
+/* Embedded fontsource-based fonts (bundled by Vite, no remote gstatic fetches). */
+
+@import "@fontsource/bebas-neue/400.css";
+
+@import "@fontsource/cambay/400.css";
+@import "@fontsource/cambay/700.css";
+@import "@fontsource/cambay/400-italic.css";
+@import "@fontsource/cambay/700-italic.css";
+
+@import "@fontsource/caladea/400.css";
+@import "@fontsource/caladea/700.css";
+@import "@fontsource/caladea/400-italic.css";
+@import "@fontsource/caladea/700-italic.css";
+
+@import "@fontsource/coiny/400.css";
+
+@import "@fontsource/space-mono/400.css";
+@import "@fontsource/space-mono/700.css";
+@import "@fontsource/space-mono/400-italic.css";
+@import "@fontsource/space-mono/700-italic.css";
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+@import "@fontsource/exo-2/400.css";
+@import "@fontsource/exo-2/700.css";
+
+/* Figma-exported family aliases used in JSX classNames.
+   Use bundled font files so previews do not depend on locally installed fonts. */
+@font-face {
+  font-family: 'Bebas_Neue';
+  src: url("@fontsource/bebas-neue/files/bebas-neue-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bebas_Neue:Regular';
+  src: url("@fontsource/bebas-neue/files/bebas-neue-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cambay:Regular';
+  src: url("@fontsource/cambay/files/cambay-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cambay:Italic';
+  src: url("@fontsource/cambay/files/cambay-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cambay:Bold';
+  src: url("@fontsource/cambay/files/cambay-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains_Mono';
+  src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains_Mono:Regular';
+  src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter:Medium';
+  src: url("@fontsource/inter/files/inter-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Exo_2';
+  src: url("@fontsource/exo-2/files/exo-2-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback mapping when Figma-exported Tailwind arbitrary font classes
+   don't compile as expected in production. */
+[class*="Bebas_Neue:Regular"],
+[class*="Bebas_Neue"] {
+  font-family: 'Bebas_Neue:Regular', 'Bebas_Neue', 'Bebas Neue', sans-serif !important;
+}
+
+[class*="Cambay:Regular"] {
+  font-family: 'Cambay:Regular', 'Cambay', sans-serif !important;
+  font-style: normal;
+  font-weight: 400;
+}
+
+[class*="Cambay:Bold"] {
+  font-family: 'Cambay:Bold', 'Cambay', sans-serif !important;
+  font-style: normal;
+  font-weight: 700;
+}
+
+[class*="Cambay:Italic"] {
+  font-family: 'Cambay:Italic', 'Cambay', sans-serif !important;
+  font-style: italic;
+  font-weight: 400;
+}
+
+[class*="Inter:Medium"] {
+  font-family: 'Inter:Medium', 'Inter', sans-serif !important;
+  font-style: normal;
+  font-weight: 500;
+}
+
+[class*="JetBrains_Mono:Regular"],
+[class*="JetBrains_Mono"] {
+  font-family: 'JetBrains_Mono:Regular', 'JetBrains_Mono', 'JetBrains Mono', monospace !important;
+}
+
+[class*="Exo_2"] {
+  font-family: 'Exo_2', 'Exo 2', sans-serif !important;
+}
