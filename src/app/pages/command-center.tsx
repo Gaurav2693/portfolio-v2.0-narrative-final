@@ -1,29 +1,29 @@
 import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, X, ExternalLink } from 'lucide-react';
-import InteractiveRoomBg from '../components/interactive-room-bg';
-import InteractiveGarageBg from '../components/interactive-garage-bg';
-import InteractiveThinkingBg from '../components/interactive-thinking-bg';
-import InteractivePrototypeBg from '../components/interactive-prototype-bg';
-import AccordionOverlay from '../components/accordion-overlay';
 import { getSlideContent } from '@/app/components/case-study-slides';
 import { SlideRenderer } from '@/app/components/slide-renderer';
 import { useSound } from '@/app/context/sound-context';
 const LazyCpqCaseStudy = lazy(() => import('@/app/pages/cpq-case-study'));
 const LazyPlotSyncCaseStudy = lazy(() => import('@/app/pages/plotsync-case-study'));
 const LazyExiroCaseStudy = lazy(() => import('@/app/pages/exiro-case-study'));
+const LazyInteractiveRoomBg = lazy(() => import('@/app/components/interactive-room-bg'));
+const LazyInteractiveGarageBg = lazy(() => import('@/app/components/interactive-garage-bg'));
+const LazyInteractiveThinkingBg = lazy(() => import('@/app/components/interactive-thinking-bg'));
+const LazyInteractivePrototypeBg = lazy(() => import('@/app/components/interactive-prototype-bg'));
+const LazyLivingRoomPiece = lazy(() => import('@/imports/LivingRoomPiece-15281-1786'));
+const LazyGarrageRoomPiece = lazy(() => import('@/imports/GarrageRoomPiece'));
+const LazyThinkingRoomPiece = lazy(() => import('@/imports/LivingRoomPiece'));
+const LazyPrototypeRoomPiece = lazy(() => import('@/imports/PrototypeRoom'));
+const LazyAccordionOverlay = lazy(() => import('@/app/components/accordion-overlay'));
+const LazyNarrativeOverlay = lazy(() => import('@/app/components/narrative-overlay'));
+const LazyHeroSection = lazy(() => import('@/app/components/hero-section'));
+const LazyOutroSection = lazy(() => import('@/app/components/outro-section'));
 import { setCursorRoom } from '@/app/components/cursor-system';
 import RoomDock from '@/app/components/room-dock';
-import NarrativeOverlay from '../components/narrative-overlay';
 import type { NarrativeType } from '../components/narrative-overlay';
-import HeroSection from '../components/hero-section';
-import OutroSection from '../components/outro-section';
 import { useParadeNavigation } from '../hooks/use-parade-navigation';
 import RoomAssemblyView from '../components/room-assembly-view';
-import LivingRoomPiece from '@/imports/LivingRoomPiece-15281-1786';
-import GarrageRoomPiece from '@/imports/GarrageRoomPiece';
-import ThinkingRoomPiece from '@/imports/LivingRoomPiece';
-import PrototypeRoomPiece from '@/imports/PrototypeRoom';
 import { getAmbientSoundscape } from '../components/ambient-soundscape';
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -572,7 +572,9 @@ export default function CommandCenter() {
         className="absolute inset-0 z-30"
         style={{ willChange: 'transform, opacity' }}
       >
-        <HeroSection onEnterRooms={onHeroEnterRooms} />
+        <Suspense fallback={null}>
+          <LazyHeroSection onEnterRooms={onHeroEnterRooms} />
+        </Suspense>
       </div>
 
       {/* ═══ CARD LAYER (Acts 2–3 · Full rooms) ════════════════════════ */}
@@ -597,7 +599,7 @@ export default function CommandCenter() {
           {studioPhase !== 'hidden' && (
             <div className="absolute inset-0" style={{ overflow: 'visible' }}>
               <RoomAssemblyView
-                RoomComponent={LivingRoomPiece}
+                RoomComponent={LazyLivingRoomPiece}
                 roomWidth={805}
                 roomHeight={609}
                 progressRef={studioAssemblyProgressRef}
@@ -613,7 +615,9 @@ export default function CommandCenter() {
                 }}
               >
                 {(studioPhase === 'active' || studioPhase === 'disassembling') && (
-                  <InteractiveRoomBg skipEntrance />
+                  <Suspense fallback={null}>
+                    <LazyInteractiveRoomBg skipEntrance />
+                  </Suspense>
                 )}
               </div>
             </div>
@@ -623,7 +627,7 @@ export default function CommandCenter() {
           {garagePhase !== 'hidden' && (
             <div className="absolute inset-0" style={{ overflow: 'visible' }}>
               <RoomAssemblyView
-                RoomComponent={GarrageRoomPiece}
+                RoomComponent={LazyGarrageRoomPiece}
                 roomWidth={805}
                 roomHeight={609}
                 zoom={1.75}
@@ -639,7 +643,9 @@ export default function CommandCenter() {
                 }}
               >
                 {(garagePhase === 'active' || garagePhase === 'disassembling') && (
-                  <InteractiveGarageBg skipEntrance />
+                  <Suspense fallback={null}>
+                    <LazyInteractiveGarageBg skipEntrance />
+                  </Suspense>
                 )}
               </div>
             </div>
@@ -649,7 +655,7 @@ export default function CommandCenter() {
           {thinkingPhase !== 'hidden' && (
             <div className="absolute inset-0" style={{ overflow: 'visible' }}>
               <RoomAssemblyView
-                RoomComponent={ThinkingRoomPiece}
+                RoomComponent={LazyThinkingRoomPiece}
                 roomWidth={805}
                 roomHeight={609}
                 zoom={1.75}
@@ -665,7 +671,9 @@ export default function CommandCenter() {
                 }}
               >
                 {(thinkingPhase === 'active' || thinkingPhase === 'disassembling') && (
-                  <InteractiveThinkingBg skipEntrance />
+                  <Suspense fallback={null}>
+                    <LazyInteractiveThinkingBg skipEntrance />
+                  </Suspense>
                 )}
               </div>
             </div>
@@ -675,7 +683,7 @@ export default function CommandCenter() {
           {prototypePhase !== 'hidden' && (
             <div className="absolute inset-0" style={{ overflow: 'visible' }}>
               <RoomAssemblyView
-                RoomComponent={PrototypeRoomPiece}
+                RoomComponent={LazyPrototypeRoomPiece}
                 roomWidth={805}
                 roomHeight={609}
                 zoom={1.75}
@@ -691,24 +699,28 @@ export default function CommandCenter() {
                 }}
               >
                 {(prototypePhase === 'active' || prototypePhase === 'disassembling') && (
-                  <InteractivePrototypeBg skipEntrance />
+                  <Suspense fallback={null}>
+                    <LazyInteractivePrototypeBg skipEntrance />
+                  </Suspense>
                 )}
               </div>
             </div>
           )}
 
           {/* ── Accordion Overlay ── */}
-          <AccordionOverlay
-            currentRoom={currentRoom}
-            onOpenStudy={openStudyById}
-            emailCopied={emailCopied}
-            onCopyEmail={copyEmail}
-            playClick={playClick}
-            visible={overlayVisible && !activeStudy}
-            dimmed={anyRoomAssembling}
-            visitedRooms={visitedRooms}
-            onOpenNarrative={openNarrative}
-          />
+          <Suspense fallback={null}>
+            <LazyAccordionOverlay
+              currentRoom={currentRoom}
+              onOpenStudy={openStudyById}
+              emailCopied={emailCopied}
+              onCopyEmail={copyEmail}
+              playClick={playClick}
+              visible={overlayVisible && !activeStudy}
+              dimmed={anyRoomAssembling}
+              visitedRooms={visitedRooms}
+              onOpenNarrative={openNarrative}
+            />
+          </Suspense>
 
           {/* ── Room Dock (right-edge switcher) ── */}
           {!activeStudy && (
@@ -850,7 +862,9 @@ export default function CommandCenter() {
           {/* ── Narrative Overlay ── */}
           <AnimatePresence>
             {activeNarrative && (
-              <NarrativeOverlay activeNarrative={activeNarrative} onClose={closeNarrative} />
+              <Suspense fallback={null}>
+                <LazyNarrativeOverlay activeNarrative={activeNarrative} onClose={closeNarrative} />
+              </Suspense>
             )}
           </AnimatePresence>
         </div>
@@ -862,7 +876,9 @@ export default function CommandCenter() {
         className="absolute inset-0 z-10"
         style={{ willChange: 'transform, opacity' }}
       >
-        <OutroSection />
+        <Suspense fallback={null}>
+          <LazyOutroSection />
+        </Suspense>
       </div>
     </div>
   );

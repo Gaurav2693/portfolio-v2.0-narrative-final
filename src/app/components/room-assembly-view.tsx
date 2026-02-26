@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback, type ComponentType, type MutableRefObject } from 'react';
+import { useRef, useEffect, useState, useCallback, type ComponentType, type MutableRefObject, type LazyExoticComponent } from 'react';
 import { createTimeline } from 'animejs';
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -92,7 +92,7 @@ interface FragmentMeta {
 
 interface Props {
   /** The Figma-exported room component */
-  RoomComponent: ComponentType;
+  RoomComponent: ComponentType<any> | LazyExoticComponent<ComponentType<any>>;
   /** Room intrinsic dimensions */
   roomWidth: number;
   roomHeight: number;

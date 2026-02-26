@@ -58,6 +58,7 @@ export class AmbientSoundscape {
   private normalGain = 0.12;
   private duckedGain = 0.02;
   private noiseSrc: AudioBufferSourceNode | null = null;
+  private visibilityHandler: (() => void) | null = null;
 
   /* ── Helpers ─────────────────────────────────────────────────────── */
   private gain(value = 0): GainNode {
@@ -119,6 +120,7 @@ export class AmbientSoundscape {
     this.masterGain.connect(this.compressor);
     this.compressor.connect(this.ctx.destination);
     this.nodes.push(this.compressor);
+    this.attachVisibilityHandler();
 
     /* ───────────────────────────────────────────────────────────────
        LAYER 1: Sub-bass drone — two slightly detuned sine waves
@@ -388,6 +390,7 @@ export class AmbientSoundscape {
      ═════════════════════════════════════════════════════════════════ */
   stop() {
     this.running = false;
+    this.detachVisibilityHandler();
 
     if (this.pingTimer) clearTimeout(this.pingTimer);
     if (this.blipTimer) clearTimeout(this.blipTimer);
@@ -426,6 +429,31 @@ export class AmbientSoundscape {
      IS RUNNING
      ═════════════════════════════════════════════════════════════════ */
   get isRunning() { return this.running; }
+
+  private attachVisibilityHandler() {
+    if (this.visibilityHandler) return;
+
+    this.visibilityHandler = () => {
+      if (!this.ctx) return;
+      if (document.hidden) {
+        if (this.ctx.state === 'running') {
+          this.ctx.suspend().catch(() => {});
+        }
+        return;
+      }
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    };
+
+    document.addEventListener('visibilitychange', this.visibilityHandler, { passive: true });
+  }
+
+  private detachVisibilityHandler() {
+    if (!this.visibilityHandler) return;
+    document.removeEventListener('visibilitychange', this.visibilityHandler);
+    this.visibilityHandler = null;
+  }
 }
 
 /* ── Singleton instance ──────────────────────────────────────────── */
