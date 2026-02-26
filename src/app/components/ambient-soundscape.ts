@@ -333,10 +333,12 @@ export class AmbientSoundscape {
     if (this.ctx.state === 'suspended') {
       const resume = () => {
         this.ctx?.resume();
+        document.removeEventListener('pointerdown', resume);
         document.removeEventListener('click', resume);
         document.removeEventListener('touchstart', resume);
         document.removeEventListener('keydown', resume);
       };
+      document.addEventListener('pointerdown', resume, { once: true });
       document.addEventListener('click', resume, { once: true });
       document.addEventListener('touchstart', resume, { once: true });
       document.addEventListener('keydown', resume, { once: true });

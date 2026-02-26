@@ -34,6 +34,7 @@ export class ReactorSoundEngine {
   private oscillators: OscillatorNode[] = [];
   private timeouts: ReturnType<typeof setTimeout>[] = [];
   private stopped = false;
+  private unlockHandler: (() => void) | null = null;
 
   /* ── Gain helper ────────────────────────────────────────────────── */
   private createGain(value = 0): GainNode {
@@ -138,6 +139,7 @@ export class ReactorSoundEngine {
     this.stopped = false;
 
     this.ctx = new AudioContext();
+    this.armAutoplayUnlock();
     const now = this.ctx.currentTime;
     const end = now + totalDuration;
 
@@ -443,9 +445,45 @@ export class ReactorSoundEngine {
     idleOsc.stop(end + 0.5);
   }
 
+  private armAutoplayUnlock() {
+    if (!this.ctx) return;
+
+    const tryResume = () => {
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      if (this.ctx.state === 'running') {
+        this.detachAutoplayUnlock();
+      }
+    };
+
+    // Attempt immediately in case browser already allows autoplay.
+    tryResume();
+
+    if (this.ctx.state === 'suspended') {
+      this.unlockHandler = tryResume;
+      const opts: AddEventListenerOptions = { capture: true, passive: true };
+      document.addEventListener('pointerdown', tryResume, opts);
+      document.addEventListener('touchstart', tryResume, opts);
+      document.addEventListener('keydown', tryResume, opts);
+      document.addEventListener('click', tryResume, opts);
+    }
+  }
+
+  private detachAutoplayUnlock() {
+    if (!this.unlockHandler) return;
+    document.removeEventListener('pointerdown', this.unlockHandler, true);
+    document.removeEventListener('touchstart', this.unlockHandler, true);
+    document.removeEventListener('keydown', this.unlockHandler, true);
+    document.removeEventListener('click', this.unlockHandler, true);
+    this.unlockHandler = null;
+  }
+
   /* ── Stop everything ───────────────────────────────────────────── */
   stop() {
     this.stopped = true;
+    this.detachAutoplayUnlock();
     this.timeouts.forEach(clearTimeout);
     this.timeouts = [];
 

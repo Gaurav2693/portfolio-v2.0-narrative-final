@@ -138,6 +138,14 @@ export default function BootLoader({ onComplete }: { onComplete: () => void }) {
     return t;
   }, []);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') skip();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [skip]);
+
   /* ── Main animation sequence ─────────────────────────────────────── */
   useEffect(() => {
     if (completedRef.current) return;
@@ -282,7 +290,6 @@ export default function BootLoader({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      onClick={skip}
       style={{
         position: 'fixed',
         inset: 0,
@@ -298,6 +305,28 @@ export default function BootLoader({ onComplete }: { onComplete: () => void }) {
         overflow: 'hidden',
       }}
     >
+      <button
+        type="button"
+        onClick={skip}
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+          zIndex: 5,
+          border: `1px solid ${MINT}66`,
+          background: '#0A1014CC',
+          color: '#D7FDEB',
+          fontSize: 12,
+          letterSpacing: 1.2,
+          padding: '8px 12px',
+          borderRadius: 6,
+          cursor: 'pointer',
+          textTransform: 'uppercase',
+        }}
+      >
+        Skip Intro
+      </button>
+
       {/* Scanline overlay */}
       <div
         style={{
@@ -307,6 +336,24 @@ export default function BootLoader({ onComplete }: { onComplete: () => void }) {
           pointerEvents: 'none',
         }}
       />
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 24,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: '#7EE6C2',
+          opacity: 0.75,
+          fontSize: 11,
+          letterSpacing: 1.1,
+          textTransform: 'uppercase',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        Tap or press any key to enable audio • Esc to skip
+      </div>
 
       {/* Glow backdrop */}
       <div
