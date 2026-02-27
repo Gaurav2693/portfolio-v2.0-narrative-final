@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { CSSProperties } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowLeft, ExternalLink, Clock, Users, Layers, Shield, Zap, Target, ChevronRight, AlertTriangle, CheckCircle2, TrendingDown, BarChart3, Lightbulb, ArrowRight, Sun, Moon, Mail, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Clock, Users, Layers, Shield, Zap, Target, ChevronRight, AlertTriangle, CheckCircle2, TrendingDown, BarChart3, Lightbulb, Sun, Moon, Mail, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { GlassCard, SectionHeading, FadeIn, MetricCard, NarrativeQuote, WireframeCard } from '../components/case-study';
 import JourneyMapDoodle from '../components/journey-map-doodle';
@@ -956,6 +956,25 @@ export default function CpqCaseStudy({ embedded = false, onClose }: CpqCaseStudy
                   and why Live Snapshot changed behavior.
                 </p>
 
+                {/* Cross-nav: Back to overview + Next */}
+                <div className="flex items-center justify-center gap-4 mb-8">
+                  <button
+                    onClick={() => navigate('/lite')}
+                    className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer transition-colors hover:bg-white/5"
+                  >
+                    <ArrowLeft size={12} className="text-white/35 shrink-0" />
+                    <span className="font-['Cambay',sans-serif] text-[12px] text-white/40">Back to overview</span>
+                  </button>
+                  <span className="text-white/15">|</span>
+                  <button
+                    onClick={() => navigate('/plotsync-case-study')}
+                    className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer transition-colors hover:bg-white/5"
+                  >
+                    <span className="font-['Cambay',sans-serif] text-[12px] text-white/40">Next: PlotSync</span>
+                    <ArrowRight size={12} className="text-white/35 shrink-0" />
+                  </button>
+                </div>
+
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   {/* Primary CTA — Contact */}
                   <a
@@ -981,11 +1000,11 @@ export default function CpqCaseStudy({ embedded = false, onClose }: CpqCaseStudy
 
                   {/* Tertiary — Back */}
                   <button
-                    onClick={() => embedded && onClose ? onClose() : navigate('/')}
+                    onClick={() => embedded && onClose ? onClose() : navigate('/lite')}
                     className="flex items-center gap-2 py-3 px-5 rounded-xl transition-all duration-200 cursor-pointer"
                   >
                     <ArrowLeft size={13} className="text-white/25 shrink-0" />
-                    <span className="font-['Cambay',sans-serif] text-[12px] leading-none relative top-[0.1em] text-white/25">{embedded ? 'Close Preview' : 'Back to Portfolio'}</span>
+                    <span className="font-['Cambay',sans-serif] text-[12px] leading-none relative top-[0.1em] text-white/25">{embedded ? 'Close Preview' : 'Back to overview'}</span>
                   </button>
                 </div>
               </div>

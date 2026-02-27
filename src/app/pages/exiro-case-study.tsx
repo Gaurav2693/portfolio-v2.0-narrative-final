@@ -773,7 +773,7 @@ export default function ExiroCaseStudy({ embedded = false, onClose }: ExiroCaseS
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
       if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
-      if (e.key === 'Escape') { embedded && onClose ? onClose() : navigate('/'); }
+      if (e.key === 'Escape') { embedded && onClose ? onClose() : navigate('/lite'); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -881,11 +881,11 @@ export default function ExiroCaseStudy({ embedded = false, onClose }: ExiroCaseS
         {/* Left: back + title */}
         <div className="flex items-center gap-4">
           <button
-            onClick={() => embedded && onClose ? onClose() : navigate('/')}
+            onClick={() => embedded && onClose ? onClose() : navigate('/lite')}
             className="flex items-center gap-1.5 cursor-pointer group"
           >
             <ArrowLeft size={14} style={{ color: P.inkFaint }} className="group-hover:-translate-x-0.5 transition-transform" />
-            <span style={{ fontFamily: mono, fontSize: 9, letterSpacing: 2, color: P.inkGhost }} className="hidden md:inline">{embedded ? 'CLOSE' : 'BACK'}</span>
+            <span style={{ fontFamily: mono, fontSize: 9, letterSpacing: 2, color: P.inkGhost }} className="hidden md:inline">{embedded ? 'CLOSE' : 'BACK TO OVERVIEW'}</span>
           </button>
           <div className="h-4 w-px" style={{ background: P.border }} />
           <span style={{ fontFamily: mono, fontSize: 9, letterSpacing: 2, color: P.inkFaint }}>EXIRO AI — UX AUDIT REPORT</span>
@@ -931,15 +931,25 @@ export default function ExiroCaseStudy({ embedded = false, onClose }: ExiroCaseS
 
       {/* ═══ BOTTOM BAR — Navigation ═════════════════════════════════ */}
       <div className="shrink-0 flex items-center justify-between px-5 md:px-8 py-3" style={{ borderTop: `1px solid ${P.border}` }}>
-        {/* Left: prev */}
-        <button
-          onClick={prev}
-          disabled={slide === 0}
-          className="flex items-center gap-1.5 cursor-pointer disabled:opacity-20 disabled:cursor-default transition-opacity"
-        >
-          <ChevronLeft size={16} style={{ color: P.inkMuted }} />
-          <span className="hidden md:inline" style={{ fontFamily: sans, fontSize: 12, color: P.inkFaint }}>Previous</span>
-        </button>
+        {/* Left: back to overview + prev */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/lite')}
+            className="flex items-center gap-1.5 cursor-pointer group"
+          >
+            <ArrowLeft size={12} style={{ color: P.inkFaint }} className="group-hover:-translate-x-0.5 transition-transform" />
+            <span className="hidden sm:inline" style={{ fontFamily: sans, fontSize: 11, color: P.inkFaint }}>Back to overview</span>
+          </button>
+          <div className="h-3 w-px" style={{ background: P.border }} />
+          <button
+            onClick={prev}
+            disabled={slide === 0}
+            className="flex items-center gap-1.5 cursor-pointer disabled:opacity-20 disabled:cursor-default transition-opacity"
+          >
+            <ChevronLeft size={16} style={{ color: P.inkMuted }} />
+            <span className="hidden md:inline" style={{ fontFamily: sans, fontSize: 12, color: P.inkFaint }}>Previous</span>
+          </button>
+        </div>
 
         {/* Center: dots + labels */}
         <div className="flex items-center gap-1.5">

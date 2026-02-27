@@ -115,6 +115,10 @@ export const router = createBrowserRouter([
         path: "how-i-build",
         lazy: () => import("@/app/pages/how-i-build").then(m => ({ Component: m.default })),
       },
+      {
+        path: "lite",
+        lazy: () => import("@/app/pages/lite/lite-home").then(m => ({ Component: m.default })),
+      },
 
       /* ── Auth-gated test/dev routes ─────────────────────────────── */
       {

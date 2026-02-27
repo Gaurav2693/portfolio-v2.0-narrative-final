@@ -1,0 +1,100 @@
+# Who I Am
+
+I'm Gaurav, a Product Designer with 5+ years of experience, currently transitioning into
+design-engineering. I come from a pure design background (Figma, systems thinking, interaction
+design) and I'm actively learning React while building this portfolio. I'm not a junior
+developer — I think in systems, I understand component architecture conceptually, and I have
+strong opinions about interaction quality. But my syntax knowledge is still forming.
+
+Treat me as a designer who codes, not a developer who designs. Explain *why* you're making
+a decision when it's non-obvious. Don't over-explain basics. Don't over-comment code.
+
+---
+
+# The Project
+
+This is my personal portfolio at gauravmishra.design. It's not a standard portfolio —
+it uses a room metaphor as the navigation system. Four sections:
+
+- **Design Studio** — case studies (CPQ 2.1, PlotSync Admin, PlotSync Mobile)
+- **The Garage** — interaction studies (INERTIA, Stillroom)
+- **How I Think** — design philosophy
+- **The Prototyping Room** — currently in development
+
+The portfolio is the product. It needs to feel like the work, not just describe it.
+Every interaction is intentional. Treat it with the same craft you'd apply to a
+production app.
+
+---
+
+# Stack
+
+- **Framework:** React (learning in progress — prefer hooks, functional components)
+- **Styling:** [add your current setup — Tailwind / CSS Modules / styled-components]
+- **Animation:** GSAP preferred for complex sequences, CSS transitions for micro-interactions
+- **3D / Canvas:** Three.js / R3F when needed (Prototyping Room)
+- **State:** useState / useReducer for local state, no Redux unless I introduce it
+- **Build / Deploy:** Vite + Vercel
+- **Version control:** Git, conventional commits preferred
+
+---
+
+# Code Conventions
+
+- Functional components only. No class components.
+- Named exports for components, default export at file bottom if needed.
+- Keep components focused — one job per component.
+- Animation logic lives in custom hooks or separate animation files, not inline in JSX.
+- No magic numbers — use CSS custom properties or named constants for values that repeat.
+- Prefer readability over cleverness. I need to understand this code in 3 months.
+- Don't install new dependencies without flagging it. Ask first if unsure.
+
+---
+
+# Design Principles (Apply These)
+
+- **Motion has meaning.** Nothing animates without a reason. Easing curves matter.
+  Ease-out for entrances, ease-in for exits, spring physics for interactive elements.
+- **Spatial consistency.** The room metaphor requires consistent sense of depth and
+  directionality. Camera/viewport transitions should feel like movement, not cuts.
+- **Performance is part of the design.** Target 60fps on everything interactive.
+  Use `will-change`, `transform`, and `opacity` for GPU-composited animations only.
+- **Details are the product.** Hover states, focus rings, loading states — these are
+  not afterthoughts.
+
+---
+
+# How to Work With Me
+
+- **I direct, you execute.** I'll describe intent ("the card should feel like it's
+  surfacing from depth"). Translate that into code. If there are multiple valid
+  approaches, give me the tradeoffs in 2 sentences, then pick one and build it.
+- **Show, don't just tell.** When you change something visual, tell me what to look
+  for in the browser.
+- **Flag when I'm about to do something I'll regret.** If my direction would create
+  tech debt, break responsiveness, or hurt performance — say so before executing.
+- **One task at a time.** Complete the current change cleanly before introducing
+  related improvements. Don't refactor everything while fixing one thing.
+- **Commit-ready output.** Code you produce should be something I can commit without
+  embarrassment. No TODOs, no console.logs, no placeholder text left in.
+
+---
+
+# Current Priorities
+
+1. Portfolio reaching FAANG "STRONG CONSIDER" tier — metrics, constraints, and
+   research artifacts are the gaps being addressed in case studies.
+2. Stillroom prototype — spatial thinking canvas with cognitive framework overlays.
+3. Prototyping Room section — animation concepts, possibly isometric, R3F.
+
+---
+
+# Context for AI Decisions
+
+- I learn by building complex things, not tutorials. Give me the real implementation.
+- I connect ideas across unrelated fields — feel free to use analogies from
+  game design, architecture, or film if it helps explain a concept.
+- I will push back if something doesn't feel right. That's not frustration, that's
+  how I process.
+- The goal is not just a working portfolio. It's a portfolio that demonstrates
+  systems-level thinking to FAANG design teams.

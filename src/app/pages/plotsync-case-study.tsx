@@ -1772,6 +1772,25 @@ export default function PlotSyncCaseStudy({ embedded = false, onClose }: PlotSyn
                   flows, and how field data shapes admin intelligence.
                 </p>
 
+                {/* Cross-nav: Back to overview + Next */}
+                <div className="flex items-center justify-center gap-4 mb-8">
+                  <button
+                    onClick={() => navigate('/lite')}
+                    className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer transition-colors hover:bg-white/5"
+                  >
+                    <ArrowLeft size={12} className="text-white/35 shrink-0" />
+                    <span className="font-['Cambay',sans-serif] text-[12px] text-white/40">Back to overview</span>
+                  </button>
+                  <span className="text-white/15">|</span>
+                  <button
+                    onClick={() => navigate('/exiro-case-study')}
+                    className="flex items-center gap-2 py-2 px-4 rounded-xl cursor-pointer transition-colors hover:bg-white/5"
+                  >
+                    <span className="font-['Cambay',sans-serif] text-[12px] text-white/40">Next: Exiro AI</span>
+                    <ArrowRight size={12} className="text-white/35 shrink-0" />
+                  </button>
+                </div>
+
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   {/* Primary CTA — Contact */}
                   <a
@@ -1797,11 +1816,11 @@ export default function PlotSyncCaseStudy({ embedded = false, onClose }: PlotSyn
 
                   {/* Tertiary — Back */}
                   <button
-                    onClick={() => embedded && onClose ? onClose() : navigate('/')}
+                    onClick={() => embedded && onClose ? onClose() : navigate('/lite')}
                     className="flex items-center gap-2 py-3 px-5 rounded-xl transition-all duration-200 cursor-pointer"
                   >
                     <ArrowLeft size={13} className="text-white/25 shrink-0" />
-                    <span className="font-['Cambay',sans-serif] text-[12px] leading-none relative top-[0.1em] text-white/25">{embedded ? 'Close Preview' : 'Back to Portfolio'}</span>
+                    <span className="font-['Cambay',sans-serif] text-[12px] leading-none relative top-[0.1em] text-white/25">{embedded ? 'Close Preview' : 'Back to overview'}</span>
                   </button>
                 </div>
               </div>
