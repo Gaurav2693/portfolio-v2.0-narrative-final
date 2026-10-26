@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, X, Maximize2 } from 'lucide-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gsap } from 'gsap';
 gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +13,36 @@ import { asset } from '@/lib/assets';
 /* ── Small pieces ────────────────────────────────────────────── */
 
 const CLIPS = ['attention-character', 'whiteboard', '3d-play'];
+
+/* ── Lightbox: any screenshot opens full-size on click ───────── */
+type Pic = { src: string; alt: string; pins?: { x: number; y: number; text?: string }[] };
+const LightboxCtx = createContext<(pic: Pic) => void>(() => {});
+
+function Lightbox({ pic, onClose }: { pic: Pic | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!pic) return;
+    const on = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', on);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', on); document.body.style.overflow = ''; };
+  }, [pic, onClose]);
+  if (!pic) return null;
+  return (
+    <div role="dialog" aria-modal="true" aria-label={pic.alt} onClick={onClose} className="fixed inset-0 z-50 grid place-items-center bg-paper/95 p-4 backdrop-blur-sm sm:p-10">
+      <button type="button" onClick={onClose} aria-label="Close" className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full border border-line bg-paper text-ink hover:border-ink sm:right-6 sm:top-6"><X size={16} /></button>
+      <div onClick={(e) => e.stopPropagation()} className="relative max-h-full max-w-[1600px] overflow-hidden rounded-md border border-line bg-paper shadow-2xl">
+        <img src={pic.src} alt={pic.alt} className="block max-h-[88vh] w-auto max-w-full" />
+        {pic.pins?.map((pin, i) => (
+          <span key={i} className="group absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${pin.x}%`, top: `${pin.y}%` }}>
+            <span className="flex size-7 items-center justify-center rounded-full bg-ink text-xs font-semibold text-paper shadow-[0_0_0_2px_var(--paper)]">{i + 1}</span>
+            {pin.text && <span className="pointer-events-none absolute left-1/2 top-9 z-10 w-max max-w-[260px] -translate-x-1/2 rounded bg-ink px-2.5 py-1.5 text-xs leading-5 text-paper opacity-0 transition-opacity group-hover:opacity-100">{pin.text}</span>}
+          </span>
+        ))}
+      </div>
+      <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-wider text-ink-3">Esc or click outside to close · hover a number</p>
+    </div>
+  );
+}
 
 const eyebrow = 'text-[11px] font-semibold uppercase tracking-[.16em] text-ink-2';
 const h = 'text-[28px] font-semibold leading-[1.12] tracking-[-.035em] sm:text-[40px] lg:text-[46px]';
@@ -46,16 +76,29 @@ function Legend({ title, items, note }: { title: string; items: string[]; note?:
   );
 }
 
-function Shot({ src, alt, pins }: { src: string; alt: string; pins?: { x: number; y: number }[] }) {
+function Shot({ src, alt, pins }: { src: string; alt: string; pins?: { x: number; y: number; text?: string }[] }) {
+  const open = useContext(LightboxCtx);
   return (
-    <div data-s className="relative self-start overflow-hidden rounded-md border border-line bg-paper">
-      <img src={src} alt={alt} className="block w-full" loading="lazy" />
+    <div data-s className="group relative self-start overflow-hidden rounded-md border border-line bg-paper">
+      <button type="button" onClick={() => open({ src, alt, pins })} aria-label={`Open ${alt} full size`} className="block w-full cursor-zoom-in">
+        <img src={src} alt={alt} className="block w-full" loading="lazy" />
+      </button>
+      <span className="pointer-events-none absolute right-2 top-2 flex size-7 items-center justify-center rounded-full border border-line bg-paper/90 text-ink opacity-0 transition-opacity group-hover:opacity-100"><Maximize2 size={13} /></span>
       {pins?.map((pin, i) => (
         <span key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${pin.x}%`, top: `${pin.y}%` }}>
           <span className="flex size-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-paper shadow-[0_0_0_2px_var(--paper)]">{i + 1}</span>
         </span>
       ))}
     </div>
+  );
+}
+
+function StateShot({ src, alt }: { src: string; alt: string }) {
+  const open = useContext(LightboxCtx);
+  return (
+    <button type="button" onClick={() => open({ src, alt })} aria-label={`Open ${alt} full size`} className="block w-full cursor-zoom-in overflow-hidden rounded-md border border-line transition-colors hover:border-ink">
+      <img src={src} alt={alt} className="block w-full" loading="lazy" />
+    </button>
   );
 }
 
@@ -152,7 +195,7 @@ function Body({ s }: { s: Slide }) {
               {s.rows.map((r) => (
                 <div key={r.label} data-s className="grid items-center gap-3 sm:grid-cols-[110px_1fr]">
                   <span className={eyebrow}>{r.label}</span>
-                  <div className="overflow-hidden rounded-md border border-line"><img src={r.src} alt={r.alt} className="block w-full" loading="lazy" /></div>
+                  <StateShot src={r.src} alt={r.alt} />
                 </div>
               ))}
             </div>
@@ -228,6 +271,7 @@ function buildTree(slides: Slide[]): TreeNode[] {
 export default function CostOfAttention() {
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [pic, setPic] = useState<Pic | null>(null);
   const main = useRef<HTMLDivElement>(null);
   const tree = buildTree(coa.slides);
 
@@ -261,6 +305,7 @@ export default function CostOfAttention() {
   const go = (i: number) => document.getElementById(`s${i + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (
+    <LightboxCtx.Provider value={setPic}>
     <main className="mx-auto max-w-[1200px] px-6 sm:px-10 lg:px-16">
       <Header />
       {/* reading progress */}
@@ -312,5 +357,7 @@ export default function CostOfAttention() {
       </div>
       <Footer />
     </main>
+    <Lightbox pic={pic} onClose={() => setPic(null)} />
+    </LightboxCtx.Provider>
   );
 }
