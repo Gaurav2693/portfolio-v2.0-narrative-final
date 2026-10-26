@@ -7,6 +7,7 @@ import { AnimatedHero } from '@/components/animated-hero';
 import { CostOfAttentionArt, CpqArt } from '@/components/study-art';
 import { Reveal } from '@/components/reveal';
 import { Clip } from '@/components/clip';
+import { WithAI } from '@/components/with-ai';
 import { Page, SectionLabel, action, link } from '@/components/chrome';
 import { site, caseStudies, builds, earlier } from '@/lib/site';
 import { buildPages } from '@/lib/builds';
@@ -139,10 +140,12 @@ export default function Home() {
         </div>
       </section>
 
+      <WithAI />
+
       {/* ── Contact ────────────────────────────────────────────── */}
       <section id="contact" className="grid items-center gap-8 border-t border-line py-14 sm:grid-cols-2">
         <Reveal>
-          <SectionLabel number="04">Let’s talk</SectionLabel>
+          <SectionLabel number="05">Let’s talk</SectionLabel>
           <p className="max-w-[420px] text-base leading-7 text-ink-2">Hiring for a design-engineer or forward-deployed role, or want the full version of a study? Email is fastest.</p>
           <div className="mt-6 flex flex-wrap items-center gap-6">
             <a className={action} href={`mailto:${site.email}`}>{site.email} <ArrowUpRight size={16} /></a>
