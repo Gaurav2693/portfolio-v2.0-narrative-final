@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/reveal';
 import { Clip } from '@/components/clip';
@@ -36,9 +37,9 @@ const stages: { title: string; line: string; tools: ToolTag[]; decide: string }[
   },
 ];
 
-function Tool({ t }: { t: ToolTag }) {
+function Tool({ t, big }: { t: ToolTag; big?: boolean }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded border px-2 py-1 text-[11px] leading-none ${t.mine ? 'border-ink bg-ink text-paper' : 'border-line text-ink'}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded border leading-none transition-[font-size,padding] duration-500 ${big ? 'px-2.5 py-1.5 text-[13px]' : 'px-2 py-1 text-[11px]'} ${t.mine ? 'border-ink bg-ink text-paper' : 'border-line text-ink'}`}>
       <span className="font-semibold">{t.name}</span>
       <span className={t.mine ? 'text-paper/70' : 'text-ink-3'}>{t.job}</span>
     </span>
@@ -46,6 +47,7 @@ function Tool({ t }: { t: ToolTag }) {
 }
 
 export function WithAI() {
+  const [active, setActive] = useState<number | null>(null);
   return (
     <section id="with-ai" className="border-t border-line py-14">
       <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
@@ -58,19 +60,32 @@ export function WithAI() {
         <Reveal className="-mb-4 justify-self-center md:justify-self-end"><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="size-36 md:size-40" /></Reveal>
       </div>
 
-      <Reveal stagger={0.1} className="mt-8 grid gap-4 md:grid-cols-4 md:gap-0">
-        {stages.map((s, i) => (
-          <div key={s.title} className="relative grid content-start gap-4 rounded-md border border-line p-5 md:rounded-none md:border-y md:border-l md:border-r-0 md:first:rounded-l-md md:last:rounded-r-md md:last:border-r">
-            {i < stages.length - 1 && <ArrowRight size={14} className="absolute -right-[7px] top-6 z-10 hidden rounded-full bg-paper text-ink-3 md:block" />}
-            <div className="flex items-baseline gap-3">
-              <span className="text-xs text-ink-3 tabular-nums">0{i + 1}</span>
-              <h3 className="text-lg font-semibold tracking-tight">{s.title}</h3>
+      {/* Hover (or tap / focus) a stage and it takes more room; the others step back. */}
+      <Reveal className="mt-8 flex flex-col gap-4 md:flex-row md:gap-0" onMouseLeave={() => setActive(null)}>
+        {stages.map((s, i) => {
+          const on = active === i;
+          const dim = active !== null && !on;
+          return (
+            <div
+              key={s.title}
+              tabIndex={0}
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => setActive(i)}
+              onClick={() => setActive(on ? null : i)}
+              style={{ flexGrow: on ? 2.4 : 1, flexBasis: 0 }}
+              className={`relative grid min-w-0 cursor-default content-start gap-4 rounded-md border p-5 outline-none transition-[flex-grow,background-color,border-color,opacity] duration-500 ease-[cubic-bezier(.2,.8,.2,1)] md:rounded-none md:border-y md:border-l md:border-r-0 md:first:rounded-l-md md:last:rounded-r-md md:last:border-r ${on ? 'border-ink bg-panel md:z-10 md:border-r md:border-ink' : 'border-line'} ${dim ? 'opacity-70' : ''}`}
+            >
+              {i < stages.length - 1 && <ArrowRight size={14} className="absolute -right-[7px] top-6 z-10 hidden rounded-full bg-paper text-ink-3 md:block" />}
+              <div className="flex items-baseline gap-3">
+                <span className="text-xs text-ink-3 tabular-nums">0{i + 1}</span>
+                <h3 className={`font-semibold tracking-tight transition-[font-size] duration-500 ${on ? 'text-2xl' : 'text-lg'}`}>{s.title}</h3>
+              </div>
+              <p className={`leading-6 text-ink-2 transition-[font-size] duration-500 ${on ? 'text-base leading-7' : 'text-sm'}`}>{s.line}</p>
+              <div className="flex flex-wrap gap-1.5">{s.tools.map((t) => <Tool key={t.name + t.job} t={t} big={on} />)}</div>
+              <p className={`mt-auto border-t border-line pt-3 leading-5 transition-[font-size] duration-500 ${on ? 'text-[15px] leading-6' : 'text-[13px]'}`}><span className="text-ink-3">Decide · </span>{s.decide}</p>
             </div>
-            <p className="text-sm leading-6 text-ink-2">{s.line}</p>
-            <div className="flex flex-wrap gap-1.5">{s.tools.map((t) => <Tool key={t.name + t.job} t={t} />)}</div>
-            <p className="mt-auto border-t border-line pt-3 text-[13px] leading-5"><span className="text-ink-3">Decide · </span>{s.decide}</p>
-          </div>
-        ))}
+          );
+        })}
       </Reveal>
     </section>
   );
