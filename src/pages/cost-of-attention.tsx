@@ -1,14 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gsap } from 'gsap';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Clip, clipNames, type ClipName } from '@/components/clip';
+gsap.registerPlugin(ScrollTrigger);
+import { Clip } from '@/components/clip';
+import { Header, Footer } from '@/components/chrome';
 import { coa, type Slide } from '@/lib/coa';
 import { site } from '@/lib/site';
 import { asset } from '@/lib/assets';
 
 /* ── Small pieces ────────────────────────────────────────────── */
+
+const CLIPS = ['attention-character', 'whiteboard', '3d-play'];
 
 const eyebrow = 'text-[11px] font-semibold uppercase tracking-[.16em] text-ink-2';
 const h = 'text-[28px] font-semibold leading-[1.12] tracking-[-.035em] sm:text-[40px] lg:text-[46px]';
@@ -19,7 +23,7 @@ const p = 'text-[15px] leading-7 text-ink-2 sm:text-base';
 function Art({ name, className = '' }: { name?: string; className?: string }) {
   const [missing, setMissing] = useState(false);
   if (!name) return null;
-  if ((clipNames as readonly string[]).includes(name)) return <Clip name={name as ClipName} label="" className={className} />;
+  if (CLIPS.includes(name)) return <Clip name={name} label="" className={className} />;
   if (missing) return <div className={`flex items-center justify-center rounded-md border border-dashed border-line text-[11px] uppercase tracking-wider text-ink-3 ${className}`}>art · {name}</div>;
   return <img src={asset(`coa/art/${name}.png`)} alt="" className={`art object-contain ${className}`} onError={() => setMissing(true)} />;
 }
@@ -44,7 +48,7 @@ function Legend({ title, items, note }: { title: string; items: string[]; note?:
 
 function Shot({ src, alt, pins }: { src: string; alt: string; pins?: { x: number; y: number }[] }) {
   return (
-    <div data-s className="relative overflow-hidden rounded-md border border-line bg-paper">
+    <div data-s className="relative self-start overflow-hidden rounded-md border border-line bg-paper">
       <img src={src} alt={alt} className="block w-full" loading="lazy" />
       {pins?.map((pin, i) => (
         <span key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${pin.x}%`, top: `${pin.y}%` }}>
@@ -83,7 +87,7 @@ function Body({ s }: { s: Slide }) {
               {s.facts.map(([k, v]) => <div key={k} className="grid grid-cols-[84px_1fr] gap-3"><dt className="text-ink-2">{k}</dt><dd>{v}</dd></div>)}
             </dl>
           </div>
-          <Art name={s.art} className="hidden aspect-square w-full max-w-[380px] justify-self-center md:block" />
+          <Art name={s.art} className="aspect-square w-full max-w-[300px] justify-self-center md:max-w-[400px]" />
         </div>
       );
     case 'text':
@@ -122,14 +126,17 @@ function Body({ s }: { s: Slide }) {
           </div>
           <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">
             {s.foot && <p data-s className={`${p} max-w-[70ch]`}>{s.foot}</p>}
-            <Art name={s.art} className="hidden h-28 w-56 md:block" />
+            <Art name={s.art} className="hidden h-44 w-72 md:block" />
           </div>
         </div>
       );
     case 'figure':
       return (
         <div className="grid gap-6">
-          <h2 data-s className={`${h} max-w-[26ch] !text-[24px] sm:!text-[30px] lg:!text-[34px]`}>{s.title}</h2>
+          <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
+            <h2 data-s className={`${h} max-w-[26ch] !text-[24px] sm:!text-[30px] lg:!text-[34px]`}>{s.title}</h2>
+            {s.art && <Art name={s.art} className="hidden h-36 w-56 md:block" />}
+          </div>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
             <Shot src={s.fig.src} alt={s.fig.alt} pins={s.fig.pins} />
             <Legend title={s.legend.title} items={s.fig.pins ? s.fig.pins.map((pn) => pn.text) : s.legend.items} note={s.legend.note} />
@@ -203,94 +210,107 @@ function Body({ s }: { s: Slide }) {
   }
 }
 
-/* ── Deck ────────────────────────────────────────────────────── */
+/* ── Long scroll + navigation tree ──────────────────────────── */
+
+type TreeNode = { chapter: string; items: { i: number; label: string }[] };
+
+function buildTree(slides: Slide[]): TreeNode[] {
+  const tree: TreeNode[] = [];
+  slides.forEach((sl, i) => {
+    const chapter = 'chapter' in sl ? sl.chapter : 'Case study';
+    const last = tree[tree.length - 1];
+    if (last && last.chapter === chapter) last.items.push({ i, label: sl.nav });
+    else tree.push({ chapter, items: [{ i, label: sl.nav }] });
+  });
+  return tree;
+}
 
 export default function CostOfAttention() {
-  const track = useRef<HTMLDivElement>(null);
-  const [i, setI] = useState(0);
-  const n = coa.slides.length;
-  const played = useRef<Set<number>>(new Set());
+  const [active, setActive] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const main = useRef<HTMLDivElement>(null);
+  const tree = buildTree(coa.slides);
 
   useEffect(() => { document.title = `${coa.title} — ${site.name}`; }, []);
 
-  const go = useCallback((to: number) => {
-    const el = track.current; if (!el) return;
-    const idx = Math.max(0, Math.min(n - 1, to));
-    el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
-  }, [n]);
-
-  // Track the active slide from scroll position.
+  // Which section is in view → active item in the tree.
   useEffect(() => {
-    const el = track.current; if (!el) return;
-    let raf = 0;
-    const on = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => setI(Math.round(el.scrollLeft / el.clientWidth))); };
-    el.addEventListener('scroll', on, { passive: true });
-    return () => { el.removeEventListener('scroll', on); cancelAnimationFrame(raf); };
+    const sections = Array.from(main.current?.querySelectorAll<HTMLElement>('[data-sec]') ?? []);
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (vis[0]) setActive(Number((vis[0].target as HTMLElement).dataset.sec));
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    sections.forEach((el) => io.observe(el));
+    const onScroll = () => { const d = document.documentElement; setProgress(d.scrollTop / (d.scrollHeight - d.clientHeight)); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); };
   }, []);
 
-  // Keyboard: ← → space, Home/End.
+  // Each section's blocks rise in the first time it scrolls into view.
   useEffect(() => {
-    const on = (e: KeyboardEvent) => {
-      if ((e.target as HTMLElement)?.tagName === 'INPUT') return;
-      if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { e.preventDefault(); go(i + 1); }
-      if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(i - 1); }
-      if (e.key === 'Home') go(0);
-      if (e.key === 'End') go(n - 1);
-    };
-    window.addEventListener('keydown', on);
-    return () => window.removeEventListener('keydown', on);
-  }, [i, go, n]);
-
-  // Animate a slide's blocks in the first time it becomes active.
-  useEffect(() => {
-    const el = track.current; if (!el) return;
-    if (played.current.has(i)) return;
-    played.current.add(i);
-    const slide = el.children[i] as HTMLElement | undefined; if (!slide) return;
-    const items = slide.querySelectorAll('[data-s]');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { gsap.set(items, { opacity: 1, x: 0 }); return; }
-    gsap.fromTo(items, { opacity: 0, x: 28 }, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.07, delay: 0.05 });
-  }, [i]);
-
-  // Pre-hide blocks of slides not yet shown, so the entrance has something to do.
-  useEffect(() => {
-    const el = track.current; if (!el) return;
-    Array.from(el.children).forEach((s, k) => { if (k !== 0) gsap.set(s.querySelectorAll('[data-s]'), { opacity: 0 }); });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const sections = Array.from(main.current?.querySelectorAll<HTMLElement>('[data-sec]') ?? []);
+    const tweens = sections.map((sec, k) => {
+      const items = sec.querySelectorAll('[data-s]');
+      if (k === 0) return gsap.fromTo(items, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08, delay: 0.1 });
+      return gsap.fromTo(items, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.07, scrollTrigger: { trigger: sec, start: 'top 80%', once: true } });
+    });
+    return () => tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
   }, []);
 
-  const chapter = (s: Slide) => ('chapter' in s ? s.chapter : 'Case study');
+  const go = (i: number) => document.getElementById(`s${i + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-paper text-ink">
-      {/* header */}
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-line px-6 sm:px-10">
-        <Link to="/#work" className="inline-flex items-center gap-2 text-sm hover:underline underline-offset-4"><ArrowLeft size={15} /> Work</Link>
-        <p className="hidden text-sm text-ink-2 sm:block"><span className="text-ink">{coa.title}</span> · {coa.eyebrow}</p>
-        <ThemeToggle />
-      </header>
+    <main className="mx-auto max-w-[1200px] px-6 sm:px-10 lg:px-16">
+      <Header />
+      {/* reading progress */}
+      <div className="fixed left-0 top-0 z-40 h-0.5 w-full bg-transparent"><div className="h-full bg-ink transition-[width] duration-150" style={{ width: `${progress * 100}%` }} /></div>
 
-      {/* slides */}
-      <div ref={track} className="deck-track flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden" aria-live="polite">
-        {coa.slides.map((s, k) => (
-          <section key={k} aria-label={`Slide ${k + 1} of ${n}`} aria-hidden={k !== i} className="grid h-full w-full shrink-0 snap-start grid-rows-[auto_1fr] overflow-y-auto px-6 py-6 sm:px-10 sm:py-8">
-            <div className="mx-auto mb-5 flex w-full max-w-[1200px] items-baseline justify-between gap-4 border-b border-line pb-3">
-              <span className={eyebrow}>{chapter(s)}</span>
-              <span className="text-[11px] tabular-nums text-ink-3">{String(k + 1).padStart(2, '0')} / {n}</span>
-            </div>
-            <div className="mx-auto grid w-full max-w-[1200px] content-center"><Body s={s} /></div>
-          </section>
-        ))}
+      <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+        {/* ── tree ─────────────────────────────────────────── */}
+        <aside className="hidden lg:block">
+          <nav aria-label="Sections" className="sticky top-28 grid gap-5 py-10 text-[13px]">
+            <Link to="/#work" className="inline-flex items-center gap-2 text-ink-2 hover:text-ink"><ArrowLeft size={13} /> Work</Link>
+            <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-ink-3">{coa.title}</p>
+            {tree.map((node) => {
+              const open = node.items.some((it) => it.i === active);
+              return (
+                <div key={node.chapter} className="grid gap-1.5">
+                  <button type="button" onClick={() => go(node.items[0].i)} className={`text-left leading-5 transition-colors ${open ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}>{node.chapter}</button>
+                  {node.items.length > 1 && (
+                    <ul className="ml-2 grid gap-1 border-l border-line">
+                      {node.items.map((it) => (
+                        <li key={it.i}>
+                          <button type="button" onClick={() => go(it.i)} aria-current={active === it.i ? 'location' : undefined}
+                            className={`-ml-px block w-full border-l pl-3 text-left leading-5 transition-colors ${active === it.i ? 'border-ink text-ink' : 'border-transparent text-ink-3 hover:text-ink'}`}>{it.label}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </aside>
+
+        {/* ── sections ─────────────────────────────────────── */}
+        <div ref={main} className="min-w-0">
+          {coa.slides.map((sl, k) => (
+            <section key={k} id={`s${k + 1}`} data-sec={k} className={`scroll-mt-28 border-b border-line py-14 ${k === 0 ? 'min-h-[70vh] content-center' : ''}`}>
+              <div className="mb-6 flex items-baseline justify-between gap-4">
+                <span className={eyebrow}>{'chapter' in sl ? sl.chapter : 'Case study'}</span>
+                <span className="text-[11px] tabular-nums text-ink-3">{String(k + 1).padStart(2, '0')} / {coa.slides.length}</span>
+              </div>
+              <Body s={sl} />
+            </section>
+          ))}
+          <div className="flex items-center justify-between gap-4 py-10 text-sm">
+            <Link to="/#work" className="inline-flex items-center gap-2 text-ink-2 hover:text-ink"><ArrowLeft size={14} /> All work</Link>
+            <Link to="/work/cpq" className="inline-flex items-center gap-2 font-medium hover:underline underline-offset-4">Next study: Brightquote CPQ <ArrowRight size={14} /></Link>
+          </div>
+        </div>
       </div>
-
-      {/* nav */}
-      <nav aria-label="Slide navigation" className="flex h-14 shrink-0 items-center gap-4 border-t border-line px-6 sm:px-10">
-        <button type="button" onClick={() => go(i - 1)} disabled={i === 0} className="inline-flex items-center gap-2 rounded-md border border-line px-3 py-1.5 text-sm hover:border-ink disabled:opacity-30 disabled:hover:border-line"><ArrowLeft size={14} /> Prev</button>
-        <div className="relative h-px flex-1 bg-line"><span className="absolute left-0 top-0 h-px bg-ink transition-[width] duration-300" style={{ width: `${((i + 1) / n) * 100}%` }} /></div>
-        <span className="hidden text-[11px] text-ink-3 sm:block">← → to move</span>
-        <button type="button" onClick={() => go(i + 1)} disabled={i === n - 1} className="inline-flex items-center gap-2 rounded-md border border-line px-3 py-1.5 text-sm hover:border-ink disabled:opacity-30 disabled:hover:border-line">Next <ArrowRight size={14} /></button>
-      </nav>
-    </div>
+      <Footer />
+    </main>
   );
 }
-
-

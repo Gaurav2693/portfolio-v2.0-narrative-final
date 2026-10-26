@@ -4,15 +4,16 @@
 export type Pin = { x: number; y: number; text: string };
 export type Fig = { src: string; alt: string; pins?: Pin[] };
 
-export type Slide =
+export type Slide = { nav: string } & (
   | { kind: 'title'; eyebrow: string; title: string; lead: string; facts: [string, string][]; art?: string }
   | { kind: 'text'; chapter: string; title: string; body: string[]; aside?: { label: string; value: string; tone?: 'red' }[]; quote?: string; art?: string }
   | { kind: 'split'; chapter: string; title: string; left: { label: string; title: string; body: string; note: string; tone?: 'red' }; right: { label: string; title: string; body: string; note: string }; foot?: string; art?: string }
-  | { kind: 'figure'; chapter: string; title: string; fig: Fig; legend: { title: string; items: string[]; note?: string } }
+  | { kind: 'figure'; chapter: string; title: string; art?: string; fig: Fig; legend: { title: string; items: string[]; note?: string } }
   | { kind: 'states'; chapter: string; title: string; rows: { label: string; src: string; alt: string }[]; legend: { title: string; items: string[]; note?: string } }
   | { kind: 'decision'; chapter: string; title: string; cost: { items: string[]; ledger: [string, string][] }; did: { title: string; body: string[] }; art?: string }
   | { kind: 'ledger'; chapter: string; title: string; body: string[]; rows: { k: string; v: string; tone?: 'red' }[] }
-  | { kind: 'close'; chapter: string; title: string; points: [string, string][]; quote: string; art?: string };
+  | { kind: 'close'; chapter: string; title: string; points: [string, string][]; quote: string; art?: string }
+);
 
 import { asset } from '@/lib/assets';
 const img = (n: string) => asset(`coa/${n}.png`);
@@ -22,14 +23,16 @@ export const coa = {
   eyebrow: 'Brightspeed · Business Hub + Business 360',
   slides: <Slide[]>[
     {
+      nav: 'Overview',
       kind: 'title',
       eyebrow: 'Case study · Brightspeed',
       title: 'The Cost of Attention',
       lead: 'Designing billing urgency that two different people can live with: the agent who has to collect, and the customer who still has a business to run.',
       facts: [['Role', 'Sole UX designer, embedded'], ['Surfaces', 'Agent (B360) · Customer (Hub)'], ['Owned', 'Interaction model, hierarchy, phasing'], ['Status', 'Agent side shipped · Hub phase 1 in build']],
-      art: 'opener',
+      art: 'attention-character',
     },
     {
+      nav: 'The problem',
       kind: 'text',
       chapter: '01 · The problem',
       title: 'Businesses owed money across several accounts, and nothing in the product said so loudly enough.',
@@ -46,6 +49,7 @@ export const coa = {
       quote: 'How do we make financial urgency persistent without blocking the work the customer logged in to do?',
     },
     {
+      nav: 'Two audiences',
       kind: 'split',
       chapter: '02 · Two audiences',
       title: 'One overdue account. Two people looking at it, who need opposite things.',
@@ -55,6 +59,7 @@ export const coa = {
       art: 'two-audiences',
     },
     {
+      nav: 'The bar',
       kind: 'figure',
       chapter: '03 · Business 360',
       title: 'The agent view: a bar, not a banner.',
@@ -71,6 +76,7 @@ export const coa = {
       legend: { title: 'What the bar does', items: ['Status pill and bar are driven by the same state.', 'Past-due amount leads. Big, red, tabular.', 'Dunning stage, next consequence, and date in one line.', 'Collect and Send PURL are one click from the bar.', 'Nothing below moves. Zero rework of the tiles.'], note: 'Selected after four iterations: docked drawer, resolution bar, guided resolution, and a stakeholder variant.' },
     },
     {
+      nav: 'Expanded',
       kind: 'figure',
       chapter: '03 · Business 360',
       title: 'Expanded, it answers the question the agent is about to be asked.',
@@ -86,6 +92,7 @@ export const coa = {
       legend: { title: 'The detail layer', items: ['Financial summary in ledger order.', 'Five-stage dunning lifecycle, current stage highlighted.', 'A plain-language line naming the moment.', 'Restoration amount: the smallest payment that restores service, shown apart from the full balance.'], note: 'The restoration amount came out of reading the dunning data, not the brief. Agents negotiate; the interface should give them the floor.' },
     },
     {
+      nav: 'State machine',
       kind: 'states',
       chapter: '03 · Business 360',
       title: 'The bar is a state machine, not a warning.',
@@ -98,9 +105,11 @@ export const coa = {
       legend: { title: 'What changes between states', items: ['Collect swaps the bar for the charge form in place. The agent never leaves the account.', 'Pending is honest about posting lag: suspension on hold, no notices fire.', 'Cleared turns amber, not green. Dunning exited; the account is still watched.', 'Receipt emailed and an account note logged automatically. No cleanup.'], note: 'Persistence shipped here first. The stakes are operational and the surface is one screen.' },
     },
     {
+      nav: 'Proposed banner',
       kind: 'figure',
       chapter: '04 · Business Hub',
       title: 'The customer view I proposed: the banner the business asked for, with structure.',
+      art: 'hub-banner-concept',
       fig: {
         src: img('hub-banner'), alt: 'Business Hub home with a full-width past-due banner: total, oldest due date, last payment, Pay Now',
         pins: [
@@ -114,6 +123,7 @@ export const coa = {
       legend: { title: 'Intended behaviour · not shipped', items: ['Lead with the number of accounts affected.', 'One total, never a vague alarm.', 'Dates and last-payment context inline.', 'Primary action to a single checkout.', 'On navigation this collapses into a persistent strip across Billing, Services and Contacts.'], note: 'The strip is what made this expensive. See the decision slide.' },
     },
     {
+      nav: 'Calm tiles',
       kind: 'figure',
       chapter: '04 · Business Hub',
       title: 'What is actually being built: the existing billing tile, made to work.',
@@ -130,6 +140,7 @@ export const coa = {
       legend: { title: 'Phase 1 scope · in build', items: ['Past-due pill on the tile.', 'Per-BAN carousel instead of a blended total.', 'Amount, due date, last payment per account.', 'Explicit paging controls.', 'Alert and Pay Now contained in the tile.'], note: 'Known gap: one account at a time, no combined total. The banner carried the total; the tile does not yet.' },
     },
     {
+      nav: 'Review & pay',
       kind: 'figure',
       chapter: '05 · Pay flow',
       title: 'Pay one, several, or all. The checkout respects how businesses actually settle.',
@@ -146,6 +157,7 @@ export const coa = {
       legend: { title: 'Why partial payment matters', items: ['Businesses dispute one invoice and pay the rest. Forcing the full total would stall everything.', 'Progress is explicit.', 'Accounts identified by site.', 'ACH alongside card.', 'Posting lag disclosed up front.'] },
     },
     {
+      nav: 'Confirmation',
       kind: 'figure',
       chapter: '05 · Pay flow',
       title: 'The reminder survived, inside the flow instead of across the app.',
@@ -160,6 +172,7 @@ export const coa = {
       legend: { title: 'The trade', items: ['Clear receipt for the part that was paid.', 'The debt that is left stays visible, at the point of highest intent.', 'One tap to continue.'], note: 'A cross-app strip needed a new component, API changes, responsive work and regression testing. A reminder on the confirmation screen needed none of that.' },
     },
     {
+      nav: 'The decision',
       kind: 'decision',
       chapter: '06 · The constraint',
       title: 'A persistent banner was not a visual change. Engineering priced it, and the price was fair.',
@@ -168,6 +181,7 @@ export const coa = {
       art: 'whiteboard',
     },
     {
+      nav: 'Measurement',
       kind: 'ledger',
       chapter: '07 · Measurement',
       title: 'No success metric was defined. So none is claimed.',
@@ -175,6 +189,7 @@ export const coa = {
       rows: [{ k: 'Payment initiation and completion after exposure', v: 'proposed' }, { k: 'Change in overdue balance, time-to-payment', v: 'proposed' }, { k: 'Escalations to collections', v: 'proposed' }, { k: 'Billing-related support contacts', v: 'proposed' }, { k: 'Dismissals, repeat exposure, alert fatigue', v: 'proposed' }, { k: 'Recovery uplift', v: 'not measured', tone: 'red' }],
     },
     {
+      nav: 'What changed for me',
       kind: 'ledger',
       chapter: '08 · What changed for me',
       title: 'I learned to read the billing APIs. That is where the restoration amount and the posting lag came from.',
@@ -182,6 +197,7 @@ export const coa = {
       rows: [{ k: 'Dunning stage and dates', v: 'in the API → stepper' }, { k: 'Restoration amount', v: 'in the API → risk panel' }, { k: 'Posting window', v: 'in the API → pending state' }, { k: 'Per-BAN past due', v: 'in the API → carousel' }, { k: 'Cross-screen banner state', v: 'not in the API → cost', tone: 'red' }],
     },
     {
+      nav: 'What this demonstrates',
       kind: 'close',
       chapter: '09 · What this demonstrates',
       title: 'None of the patterns are new. The judgment is in where each one was allowed to live.',
