@@ -1,83 +1,77 @@
+import { ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/reveal';
 import { Clip } from '@/components/clip';
 import { SectionLabel } from '@/components/chrome';
 
-// "How I work with AI" — the split that matters is not which tool, but who decides what.
-// Each step names what the model does and what stays with me. Edit copy here.
+// "How I work with AI" — a four-stage pipeline. AI shows up as tools with a job,
+// the way Figma does, and each stage ends on the decision that stays with me.
+// To use real brand marks later: give Tool an `icon` and render it before the name.
 
-const steps: { title: string; ai: string; me: string; proof?: string }[] = [
+type ToolTag = { name: string; job: string; mine?: boolean };
+
+const stages: { title: string; line: string; tools: ToolTag[]; decide: string }[] = [
   {
-    title: 'The brief is mine',
-    ai: 'Nothing yet. A model given a vague brief returns a confident, vague answer.',
-    me: 'Write the problem, the constraint, and who it is for, in plain words. If I cannot write it in a paragraph, I am not ready to build it.',
+    title: 'Frame',
+    line: 'Brief, constraints, information architecture. Written by me before any model sees it.',
+    tools: [{ name: 'Me', job: 'brief + IA', mine: true }, { name: 'Figma', job: 'structure' }, { name: 'Claude', job: 'sparring' }],
+    decide: 'What we are solving, and what is out of scope.',
   },
   {
-    title: 'Research fans out, I narrow',
-    ai: 'Pulls precedents, options, API shapes, the three ways other people solved this.',
-    me: 'Kill most of it. Keep what the brief actually needs. The useful part is never the longest part.',
-    proof: 'Reading the billing API this way is where the restoration amount in The Cost of Attention came from.',
+    title: 'Route',
+    line: 'Each task goes to the model built for it. Same brief to two models when the answer matters; keep the better reasoning.',
+    tools: [{ name: 'Claude', job: 'code · structure' }, { name: 'GPT', job: 'images · frames' }, { name: 'Haiku-class', job: 'drafts · bulk' }, { name: 'Opus-class', job: 'architecture' }],
+    decide: 'Which model, at what cost, for which step.',
   },
   {
-    title: 'Structure before pixels',
-    ai: 'Drafts the PRD and the state list once I have given it the information architecture.',
-    me: 'Decide the IA, the states, and what is phase one versus phase two. Scope is a design decision, not a project-management one.',
+    title: 'Build',
+    line: 'Prototype in code. The model scaffolds; I own interaction, hierarchy, and the cuts.',
+    tools: [{ name: 'Claude Code', job: 'scaffold' }, { name: 'React · Three.js', job: 'the thing' }, { name: 'Me', job: 'taste · cuts', mine: true }],
+    decide: 'A working thing settles the argument. I argue with working things.',
   },
   {
-    title: 'Prototype in code',
-    ai: 'Scaffolds. Boilerplate, wiring, the first version of anything repetitive.',
-    me: 'The interaction, the hierarchy, and the cuts. A working thing settles an argument faster than a mock does, so I argue with working things.',
-  },
-  {
-    title: 'Draw to a definition',
-    ai: 'Generates the character and the loops on this site, frame by frame, to a definition I wrote.',
-    me: 'The definition, the direction, which frames survive. I can draw; I chose generation for speed, and I say so rather than hide it.',
+    title: 'Ship',
+    line: 'Deploy, trace the cost, say what shipped and what did not.',
+    tools: [{ name: 'Vercel', job: 'deploy' }, { name: 'Langfuse', job: 'traces · cost' }, { name: 'Me', job: 'status', mine: true }],
+    decide: 'Shipped, in progress, proposed. Never blurred.',
   },
 ];
 
-const rules = [
-  ['Deadline before clarity', 'I fix the analysis window first, then commit to the best option available inside it. Waiting for full clarity is a decision too, usually the expensive one.'],
-  ['Cost before preference', 'My preferred interaction gets priced by engineering before it gets defended. If the price is fair, I phase it.'],
-  ['Honest status', 'Shipped, in progress, proposed. Three words, never blurred. A portfolio that invents uplift is a portfolio I cannot defend in a room.'],
-];
+function Tool({ t }: { t: ToolTag }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded border px-2 py-1 text-[11px] leading-none ${t.mine ? 'border-ink bg-ink text-paper' : 'border-line text-ink'}`}>
+      <span className="font-semibold">{t.name}</span>
+      <span className={t.mine ? 'text-paper/70' : 'text-ink-3'}>{t.job}</span>
+    </span>
+  );
+}
 
 export function WithAI() {
   return (
     <section id="with-ai" className="border-t border-line py-14">
-      <Reveal><SectionLabel number="04" aside="The tool changes. Who decides does not.">How I work with AI</SectionLabel></Reveal>
-
-      <div className="grid gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
-        {/* left: clip + rules */}
-        <div className="grid content-start gap-8">
-          <Reveal><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="mx-auto size-56 lg:mx-0 lg:size-64" /></Reveal>
-          <Reveal stagger={0.1} className="grid gap-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-ink-2">How I decide</p>
-            {rules.map(([t, b]) => (
-              <div key={t} className="border-t border-line pt-4">
-                <h3 className="font-semibold">{t}</h3>
-                <p className="mt-1.5 text-sm leading-6 text-ink-2">{b}</p>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-
-        {/* right: steps with the AI / me split */}
-        <Reveal stagger={0.09} className="grid">
-          <div className="hidden grid-cols-[32px_1fr_1fr] gap-6 border-b border-line pb-3 text-[11px] font-semibold uppercase tracking-[.16em] text-ink-2 sm:grid">
-            <span />
-            <span>What the model does</span>
-            <span>What I decide</span>
-          </div>
-          {steps.map((s, i) => (
-            <div key={s.title} className="grid gap-x-6 gap-y-2 border-b border-line py-6 sm:grid-cols-[32px_1fr_1fr]">
-              <span className="text-xs text-ink-3 tabular-nums sm:row-span-3 sm:pt-1">0{i + 1}</span>
-              <h3 className="font-semibold sm:col-span-2">{s.title}</h3>
-              <p className="text-sm leading-6 text-ink-2 sm:col-start-2"><span className="mr-2 inline-block rounded border border-line px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-ink-3 sm:hidden">AI</span>{s.ai}</p>
-              <p className="text-sm leading-6 sm:col-start-3"><span className="mr-2 inline-block rounded border border-ink px-1.5 py-0.5 text-[10px] uppercase tracking-wider sm:hidden">Me</span>{s.me}</p>
-              {s.proof && <p className="text-[13px] leading-6 text-ink-3 sm:col-span-2 sm:col-start-2">↳ {s.proof}</p>}
-            </div>
-          ))}
+      <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
+        <Reveal>
+          <SectionLabel number="04">How I work with AI</SectionLabel>
+          <p className="-mt-3 max-w-[56ch] text-base leading-7 text-ink-2">
+            AI is a tool with a job, like Figma. Routing work between models is systems thinking: cost, latency and quality are a budget, not a vibe. RONIN is this habit turned into software.
+          </p>
         </Reveal>
+        <Reveal className="-mb-4 justify-self-center md:justify-self-end"><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="size-36 md:size-40" /></Reveal>
       </div>
+
+      <Reveal stagger={0.1} className="mt-8 grid gap-4 md:grid-cols-4 md:gap-0">
+        {stages.map((s, i) => (
+          <div key={s.title} className="relative grid content-start gap-4 rounded-md border border-line p-5 md:rounded-none md:border-y md:border-l md:border-r-0 md:first:rounded-l-md md:last:rounded-r-md md:last:border-r">
+            {i < stages.length - 1 && <ArrowRight size={14} className="absolute -right-[7px] top-6 z-10 hidden rounded-full bg-paper text-ink-3 md:block" />}
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs text-ink-3 tabular-nums">0{i + 1}</span>
+              <h3 className="text-lg font-semibold tracking-tight">{s.title}</h3>
+            </div>
+            <p className="text-sm leading-6 text-ink-2">{s.line}</p>
+            <div className="flex flex-wrap gap-1.5">{s.tools.map((t) => <Tool key={t.name + t.job} t={t} />)}</div>
+            <p className="mt-auto border-t border-line pt-3 text-[13px] leading-5"><span className="text-ink-3">Decide · </span>{s.decide}</p>
+          </div>
+        ))}
+      </Reveal>
     </section>
   );
 }
