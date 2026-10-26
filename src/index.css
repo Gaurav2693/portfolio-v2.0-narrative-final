@@ -64,3 +64,7 @@ button:not(:disabled), a { cursor: pointer; }
   .reveal { opacity: 1; transform: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* Horizontal deck: hide the scrollbar, keep the scroll. */
+.deck-track { scrollbar-width: none; -ms-overflow-style: none; }
+.deck-track::-webkit-scrollbar { display: none; }
