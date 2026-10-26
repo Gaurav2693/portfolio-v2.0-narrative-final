@@ -165,7 +165,7 @@ export const coa = {
       title: 'A persistent banner was not a visual change. Engineering priced it, and the price was fair.',
       cost: { items: ['UX spec and approval cycle', 'A new banner component and changes to how billing API data is consumed and shaped', 'Persistence across screens, responsive layout adjustments', 'Integration and regression testing across the existing Hub'], ledger: [['Estimate discussed', '~3 sprints'], ['Elsewhere described as', '~2 mo dev + 3 wk test']] },
       did: { title: 'Phase it.', body: ['Phase 1, in progress: fix the existing billing tile so it surfaces per-account overdue state and a path to pay.', 'Phase 2, proposed: the landing banner and persistent strip, when capacity allows.', 'I defended the problem, not my solution. The business supported the concept. Engineering chose the feasible path. The banner is not shipped, and this deck does not pretend otherwise.'] },
-      art: 'the-trade',
+      art: 'whiteboard',
     },
     {
       kind: 'ledger',

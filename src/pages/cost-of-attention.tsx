@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Clip, clipNames, type ClipName } from '@/components/clip';
 import { coa, type Slide } from '@/lib/coa';
 import { site } from '@/lib/site';
 import { asset } from '@/lib/assets';
@@ -18,6 +19,7 @@ const p = 'text-[15px] leading-7 text-ink-2 sm:text-base';
 function Art({ name, className = '' }: { name?: string; className?: string }) {
   const [missing, setMissing] = useState(false);
   if (!name) return null;
+  if ((clipNames as readonly string[]).includes(name)) return <Clip name={name as ClipName} label="" className={className} />;
   if (missing) return <div className={`flex items-center justify-center rounded-md border border-dashed border-line text-[11px] uppercase tracking-wider text-ink-3 ${className}`}>art · {name}</div>;
   return <img src={asset(`coa/art/${name}.png`)} alt="" className={`art object-contain ${className}`} onError={() => setMissing(true)} />;
 }
@@ -156,7 +158,7 @@ function Body({ s }: { s: Slide }) {
         <div className="grid gap-8">
           <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
             <h2 data-s className={`${h} max-w-[26ch]`}>{s.title}</h2>
-            <Art name={s.art} className="hidden h-28 w-56 md:block" />
+            <Art name={s.art} className="hidden size-44 md:block" />
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div data-s className="grid content-start gap-4 rounded-md border border-line p-6">

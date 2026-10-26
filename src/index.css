@@ -68,3 +68,8 @@ button:not(:disabled), a { cursor: pointer; }
 /* Horizontal deck: hide the scrollbar, keep the scroll. */
 .deck-track { scrollbar-width: none; -ms-overflow-style: none; }
 .deck-track::-webkit-scrollbar { display: none; }
+
+/* Looping clips: white-background video that reads as ink on paper in both themes. */
+.clip { mix-blend-mode: multiply; filter: contrast(1.2); }
+.dark .clip { filter: invert(1) contrast(1.2); mix-blend-mode: screen; }
+@media (prefers-reduced-motion: reduce) { .clip { animation: none; } }

@@ -6,6 +6,7 @@ import { PortfolioArt } from '@/components/portfolio-art';
 import { AnimatedHero } from '@/components/animated-hero';
 import { CostOfAttentionArt, CpqArt } from '@/components/study-art';
 import { Reveal } from '@/components/reveal';
+import { Clip } from '@/components/clip';
 import { Page, SectionLabel, action, link } from '@/components/chrome';
 import { site, caseStudies, builds, earlier } from '@/lib/site';
 
@@ -90,7 +91,10 @@ export default function Home() {
 
       {/* ── Builds ─────────────────────────────────────────────── */}
       <section id="builds" className="border-t border-line py-14">
-        <Reveal><SectionLabel number="02" aside="Things I built myself, mostly in 3D.">Builds</SectionLabel></Reveal>
+        <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
+          <Reveal><SectionLabel number="02" aside="Things I built myself, mostly in 3D.">Builds</SectionLabel></Reveal>
+          <Reveal className="-mb-2 -mt-6 justify-self-end"><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="size-36 md:size-44" /></Reveal>
+        </div>
         <Reveal stagger={0.08} className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {builds.map((b) => (
             <a key={b.title} href={b.href} target={b.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" className="group block">
@@ -124,7 +128,7 @@ export default function Home() {
             <p>I use AI heavily to build and to draw. The character on this page is generated to my own definition, and I’d rather say that than hide it.</p>
             <p className="text-ink-2">Based in {site.location}.</p>
           </Reveal>
-          <Reveal delay={0.2}><PortfolioArt crop={[148, 747, 104, 133]} label="Gaurav holding a coffee mug" className="mx-auto w-36 md:mx-0" /></Reveal>
+          <Reveal delay={0.2}><Clip name="bicycle" label="Gaurav riding a bicycle" className="mx-auto size-48 md:mx-0 md:size-52" /></Reveal>
         </div>
       </section>
 
