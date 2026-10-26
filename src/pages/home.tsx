@@ -92,10 +92,7 @@ export default function Home() {
 
       {/* ── Builds ─────────────────────────────────────────────── */}
       <section id="builds" className="border-t border-line py-14">
-        <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
-          <Reveal><SectionLabel number="02" aside="Things I built myself, mostly in 3D.">Builds</SectionLabel></Reveal>
-          <Reveal className="-mb-2 -mt-6 justify-self-end"><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="size-36 md:size-44" /></Reveal>
-        </div>
+        <Reveal><SectionLabel number="02" aside="Things I built myself, mostly in 3D.">Builds</SectionLabel></Reveal>
         <Reveal stagger={0.08} className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {buildPages.map((b) => (
             <Link key={b.slug} to={`/builds/${b.slug}`} className="group block">
@@ -131,14 +128,14 @@ export default function Home() {
       {/* ── About ──────────────────────────────────────────────── */}
       <section id="about" className="border-t border-line py-14">
         <Reveal><SectionLabel number="03">About</SectionLabel></Reveal>
-        <div className="grid items-start gap-10 md:grid-cols-[1fr_200px]">
+        <div className="grid items-start gap-10 md:grid-cols-[1fr_272px]">
           <Reveal stagger={0.1} className="max-w-[640px] space-y-5 text-base leading-7">
             <p>Senior product designer at Infinite Computer Solutions, embedded as the only UX designer on Brightspeed’s business platforms: quoting, billing, and the tools agents use on calls.</p>
             <p>Seven years in, self-taught across design and engineering. I prototype the interfaces I design, in React, Three.js and Babylon.js, because a working thing settles an argument faster than a mock does.</p>
             <p>I use AI heavily to build and to draw. The character on this page is generated to my own definition, and I’d rather say that than hide it.</p>
             <p className="text-ink-2">Based in {site.location}.</p>
           </Reveal>
-          <Reveal delay={0.2}><Clip name="bicycle" label="Gaurav riding a bicycle" className="mx-auto size-48 md:mx-0 md:size-52" /></Reveal>
+          <Reveal delay={0.2}><Clip name="bicycle" label="Gaurav riding a bicycle" className="mx-auto size-64 md:mx-0 md:size-68" /></Reveal>
         </div>
       </section>
 
