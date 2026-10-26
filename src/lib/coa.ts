@@ -203,7 +203,6 @@ export const coa = {
       title: 'None of the patterns are new. The judgment is in where each one was allowed to live.',
       points: [['Role-specific urgency', 'Unmissable for the agent, non-blocking for the customer, same data underneath.'], ['Attention without obstruction', 'The customer keeps managing services while the balance stays visible.'], ['Multi-account clarity', 'Per-BAN breakdown, not a blended total.'], ['Actionability', 'Restoration amount, partial payment, Pay remaining. A path, not a warning.'], ['Technical judgment', 'Phased my preferred interaction after understanding its cost.'], ['Honest status', 'One surface shipped, one in progress, one proposed. No invented uplift.']],
       quote: 'Screens show the interface. Decisions show the design work.',
-      art: 'closing',
     },
   ],
 };

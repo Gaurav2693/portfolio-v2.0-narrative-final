@@ -243,9 +243,8 @@ function Body({ s }: { s: Slide }) {
               <div key={t} data-s className="grid grid-cols-[20px_1fr] gap-3 border-t border-line pt-4"><Num n={i + 1} /><div><h3 className="font-semibold">{t}</h3><p className="mt-1 text-sm leading-6 text-ink-2">{b}</p></div></div>
             ))}
           </div>
-          <div className="grid items-end gap-6 md:grid-cols-[1fr_auto_auto]">
+          <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
             <p data-s className="max-w-[30ch] border-l-2 border-ink pl-5 text-xl leading-snug sm:text-2xl">{s.quote}</p>
-            <Art name={s.art} className="hidden h-28 w-40 md:block" />
             <Link data-s to="/#work" className="inline-flex items-center gap-3 rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:bg-ink-2">Back to work <ArrowUpRight size={16} /></Link>
           </div>
         </div>
