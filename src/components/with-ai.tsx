@@ -37,9 +37,9 @@ const stages: { title: string; line: string; tools: ToolTag[]; decide: string }[
   },
 ];
 
-function Tool({ t, big }: { t: ToolTag; big?: boolean }) {
+function Tool({ t }: { t: ToolTag }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded border leading-none transition-[font-size,padding] duration-500 ${big ? 'px-2.5 py-1.5 text-[13px]' : 'px-2 py-1 text-[11px]'} ${t.mine ? 'border-ink bg-ink text-paper' : 'border-line text-ink'}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded border px-2 py-1 text-[12px] leading-none ${t.mine ? 'border-ink bg-ink text-paper' : 'border-line text-ink'}`}>
       <span className="font-semibold">{t.name}</span>
       <span className={t.mine ? 'text-paper/70' : 'text-ink-3'}>{t.job}</span>
     </span>
@@ -47,7 +47,10 @@ function Tool({ t, big }: { t: ToolTag; big?: boolean }) {
 }
 
 export function WithAI() {
-  const [active, setActive] = useState<number | null>(null);
+  // Hover previews a stage; click pins it (click again, or click another, to change).
+  const [hover, setHover] = useState<number | null>(null);
+  const [pinned, setPinned] = useState<number | null>(null);
+  const active = pinned ?? hover;
   return (
     <section id="with-ai" className="border-t border-line py-14">
       <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
@@ -61,7 +64,7 @@ export function WithAI() {
       </div>
 
       {/* Hover (or tap / focus) a stage and it takes more room; the others step back. */}
-      <Reveal className="mt-8 flex flex-col gap-4 md:flex-row md:gap-0" onMouseLeave={() => setActive(null)}>
+      <Reveal className="mt-8 flex flex-col gap-4 md:flex-row md:gap-0" onMouseLeave={() => setHover(null)}>
         {stages.map((s, i) => {
           const on = active === i;
           const dim = active !== null && !on;
@@ -69,20 +72,21 @@ export function WithAI() {
             <div
               key={s.title}
               tabIndex={0}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              onClick={() => setActive(on ? null : i)}
-              style={{ flexGrow: on ? 2.4 : 1, flexBasis: 0 }}
-              className={`relative grid min-w-0 cursor-default content-start gap-4 rounded-md border p-5 outline-none transition-[flex-grow,background-color,border-color,opacity] duration-500 ease-[cubic-bezier(.2,.8,.2,1)] md:rounded-none md:border-y md:border-l md:border-r-0 md:first:rounded-l-md md:last:rounded-r-md md:last:border-r ${on ? 'border-ink bg-panel md:z-10 md:border-r md:border-ink' : 'border-line'} ${dim ? 'opacity-70' : ''}`}
+              onMouseEnter={() => setHover(i)}
+              onFocus={() => setHover(i)}
+              onClick={() => setPinned(pinned === i ? null : i)}
+              aria-pressed={pinned === i}
+              style={{ flex: `${on ? 2.2 : 1} 1 0%` }}
+              className={`relative grid min-w-0 cursor-pointer content-start gap-4 rounded-md border p-5 outline-none transition-[flex,opacity,background-color] duration-700 ease-[cubic-bezier(.22,1,.36,1)] md:rounded-none md:border-y md:border-l md:border-r-0 md:first:rounded-l-md md:last:rounded-r-md md:last:border-r ${on ? 'bg-panel md:z-10' : ''} ${pinned === i ? 'border-ink md:border-r md:border-ink' : 'border-line'} ${dim ? 'opacity-60' : 'opacity-100'}`}
             >
               {i < stages.length - 1 && <ArrowRight size={14} className="absolute -right-[7px] top-6 z-10 hidden rounded-full bg-paper text-ink-3 md:block" />}
               <div className="flex items-baseline gap-3">
                 <span className="text-xs text-ink-3 tabular-nums">0{i + 1}</span>
-                <h3 className={`font-semibold tracking-tight transition-[font-size] duration-500 ${on ? 'text-2xl' : 'text-lg'}`}>{s.title}</h3>
+                <h3 className="text-lg font-semibold tracking-tight">{s.title}</h3>
               </div>
-              <p className={`leading-6 text-ink-2 transition-[font-size] duration-500 ${on ? 'text-base leading-7' : 'text-sm'}`}>{s.line}</p>
-              <div className="flex flex-wrap gap-1.5">{s.tools.map((t) => <Tool key={t.name + t.job} t={t} big={on} />)}</div>
-              <p className={`mt-auto border-t border-line pt-3 leading-5 transition-[font-size] duration-500 ${on ? 'text-[15px] leading-6' : 'text-[13px]'}`}><span className="text-ink-3">Decide · </span>{s.decide}</p>
+              <p className="text-sm leading-6 text-ink-2">{s.line}</p>
+              <div className="flex flex-wrap gap-1.5">{s.tools.map((t) => <Tool key={t.name + t.job} t={t} />)}</div>
+              <p className="mt-auto border-t border-line pt-3 text-[13px] leading-5"><span className="text-ink-3">Decide · </span>{s.decide}</p>
             </div>
           );
         })}
