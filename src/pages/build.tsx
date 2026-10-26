@@ -92,9 +92,24 @@ export default function Build() {
         </Reveal>
       </section>
 
+      {/* ── Principles (optional) ────────────────────────────── */}
+      {b.principles && (
+        <section className="border-t border-line py-14">
+          <Reveal><SectionLabel number="03" aside="What it is built on, not what it does.">Principles</SectionLabel></Reveal>
+          <Reveal stagger={0.07} className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+            {b.principles.map((pr, i) => (
+              <div key={pr.title} className="grid grid-cols-[28px_1fr] gap-3 border-t border-line pt-5">
+                <span className="text-xs text-ink-3 tabular-nums">0{i + 1}</span>
+                <div><h3 className="font-semibold">{pr.title}</h3><p className="mt-2 text-sm leading-6 text-ink-2">{pr.body}</p></div>
+              </div>
+            ))}
+          </Reveal>
+        </section>
+      )}
+
       {/* ── Screens ──────────────────────────────────────────── */}
       <section className="border-t border-line py-14">
-        <Reveal><SectionLabel number="03">Screens</SectionLabel></Reveal>
+        <Reveal><SectionLabel number={b.principles ? '04' : '03'}>Screens</SectionLabel></Reveal>
         {b.screens.length > 0 ? (
           <Reveal stagger={0.08} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {b.screens.map((s) => (
@@ -116,7 +131,7 @@ export default function Build() {
       {/* ── Links + next ─────────────────────────────────────── */}
       <section className="grid gap-8 border-t border-line py-14 sm:grid-cols-2">
         <Reveal>
-          <SectionLabel number="04">Links</SectionLabel>
+          <SectionLabel number={b.principles ? '05' : '04'}>Links</SectionLabel>
           <div className="flex flex-wrap items-center gap-6">
             {b.links.length > 0 ? b.links.map((l) => <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={link}>{l.label} <ArrowUpRight size={15} /></a>) : <span className="text-sm text-ink-3">Nothing public yet.</span>}
           </div>

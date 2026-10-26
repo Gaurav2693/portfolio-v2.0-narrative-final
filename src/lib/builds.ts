@@ -15,6 +15,7 @@ export type BuildPage = {
   facts: [string, string][]; // role, scope, anything that frames the work
   what: string[];            // 1–3 short paragraphs
   process: { title: string; body: string }[]; // 3–5 steps, brief
+  principles?: { title: string; body: string }[]; // optional: the rules the thing is built on
   screens: { src: string; caption: string }[];
   links: { label: string; href: string }[];
   note?: string;             // honest status line, shown under the links
@@ -125,24 +126,35 @@ export const buildPages: BuildPage[] = [
   {
     slug: 'ronin',
     title: 'RONIN',
-    tagline: 'An orchestration workspace for running AI agents without modes.',
+    tagline: 'An orchestration workspace that routes one request across several models and shows you what it cost.',
     clip: 'ronin', clipLabel: 'Gaurav wired into several small agent screens',
     status: 'Alpha', year: '2026',
     stack: ['React', 'Vercel AI SDK', 'Inngest', 'Supabase', 'Clerk', 'Langfuse'],
-    facts: [['Role', 'Architecture, design, build'], ['Primitives', 'Sessions · Tools · Skills · Workflows · Artifacts · Memory'], ['Public showreel', 'roninos.app (access code)']],
+    facts: [['Role', 'Architecture, design, build'], ['Primitives', 'Sessions · Tools · Skills · Workflows · Artifacts · Memory'], ['Outputs', 'Diagram · Storyboard · Code · Compare · Chart · Image · Mind map · Explainer'], ['Try it', 'roninos.app · access code 2693']],
     what: [
       'RONIN is the tool I use to run agents on my own work. Version 3 had eight modes and a council of named agents. Version 4 threw the modes away: one short session loop, five primitives, and a human-editable memory the orchestrator reads before every run.',
-      'The public face is Orchestrator Mini: a typed pipeline (orchestrator → researcher → designer → reviewer) with live cost, latency, cache and trace surfaces, so you can watch what a run actually spends.',
+      'The public build is Orchestrator Mini. You type what you want; a small router classifies it into one of eight output formats and fires the right agents (orchestrator → researcher → designer → code → reviewer). The rail, the marginalia and the preview reveal as the run progresses, with cost, latency, cache hits and a trace on screen.',
+      'It is open for testing. Use the access code above and try one of the suggestions on the welcome screen.',
+    ],
+    principles: [
+      { title: 'Modeless', body: 'No modes to pick before you start. One ~80-line session loop; tools and skills carry the difference, not the UI.' },
+      { title: 'Route by task, not by habit', body: 'A cheap, fast model classifies and drafts. A strong model decides architecture and writes code. The same brief can go to two models when the answer matters.' },
+      { title: 'Show the spend', body: 'Every run surfaces cost, latency, cache hits and a trace. An agent workspace that hides the bill cannot be reasoned about.' },
+      { title: 'Memory is a document, not a database', body: 'Cooker is a human-editable set of pages (identity, voice, projects, decisions, taste) the orchestrator reads before every run. If I can read it, I can correct it.' },
+      { title: 'Typed outputs, open brain', body: 'Orchestrator Mini is a closed catalogue of eight formats on top of an open-ended session loop. The catalogue makes the demo legible; the loop keeps the system honest.' },
+      { title: 'Decisions on paper', body: 'Eleven architecture decision records, each with the alternative and its cost written down. The showreel is the presentation layer; the ADRs stay optimised for cost and efficiency, not for the demo.' },
     ],
     process: [
-      { title: 'Retire the modes', body: 'V3’s modes were eight ways of saying the same thing. V4 replaced them with one ~80-line session loop and let tools and skills carry the difference.' },
-      { title: 'Decide the primitives', body: 'Sessions, Tools, Skills, Workflows, Artifacts, then Memory. Eleven architecture decision records, each with the cost of the alternative written down.' },
-      { title: 'Show the spend', body: 'Every run surfaces cost, latency, cache hits and a trace. If an agent workspace hides the bill, people cannot make good decisions with it.' },
-      { title: 'Ship the showreel, keep the brain honest', body: 'Orchestrator Mini is the presentation layer. The underlying decisions stay optimised for cost and efficiency, not for the demo.' },
+      { title: 'Retire the modes', body: 'V3’s modes were eight ways of saying the same thing. V4 replaced them with one session loop and let tools and skills carry the difference.' },
+      { title: 'Decide the primitives', body: 'Sessions, Tools, Skills, Workflows, Artifacts, then Memory. Eleven ADRs, each with the cost of the alternative written down.' },
+      { title: 'Build the router, then the agents', body: 'A Haiku-class router classifies into eight output formats and a firing matrix decides which of five named agents run. The pipeline is typed end to end.' },
+      { title: 'Ship the showreel, keep the brain honest', body: 'Orchestrator Mini went live at roninos.app behind an access code. Phase 1 passes its test suite; CI, self-hosted deploy and full tracing are the next debts to pay.' },
     ],
-    screens: [], // TODO: /public/builds/ronin/01.png …
-    links: [{ label: 'roninos.app', href: 'https://roninos.app' }],
-    note: 'Alpha. Phase 1 passes its test suite; CI, self-hosted deploy and tracing are the next debts to pay.',
+    screens: [
+      { src: 'builds/ronin/01-welcome.jpg', caption: 'Orchestrator Mini, welcome screen: one prompt, eight output formats, suggestions to start from.' },
+    ],
+    links: [{ label: 'Open roninos.app', href: 'https://roninos.app' }, { label: 'Source · orchestrator-mini', href: 'https://github.com/Gaurav2693/orchestrator-mini' }],
+    note: 'Alpha, open for testing. Access code: 2693. Runs cost real tokens, so please be kind.',
   },
 ];
 
