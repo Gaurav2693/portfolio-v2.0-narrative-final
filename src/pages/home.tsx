@@ -151,7 +151,7 @@ export default function Home() {
           </div>
         </Reveal>
         <Reveal delay={0.15} className="flex items-center justify-center">
-          <PortfolioArt crop={[488, 904, 105, 84]} label="Gaurav waving hello" className="w-44" />
+          <Clip name="lets-talk" label="An envelope opening" className="size-56 md:size-64" />
         </Reveal>
       </section>
     </Page>
