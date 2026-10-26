@@ -9,6 +9,7 @@ import { Reveal } from '@/components/reveal';
 import { Clip } from '@/components/clip';
 import { Page, SectionLabel, action, link } from '@/components/chrome';
 import { site, caseStudies, builds, earlier } from '@/lib/site';
+import { buildPages } from '@/lib/builds';
 
 const studyArt = { 'cost-of-attention': CostOfAttentionArt, cpq: CpqArt } as const;
 
@@ -96,15 +97,24 @@ export default function Home() {
           <Reveal className="-mb-2 -mt-6 justify-self-end"><Clip name="3d-play" label="Gaurav juggling a cube, a sphere and a small terrain tile" className="size-36 md:size-44" /></Reveal>
         </div>
         <Reveal stagger={0.08} className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {builds.map((b) => (
-            <a key={b.title} href={b.href} target={b.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" className="group block">
+          {buildPages.map((b) => (
+            <Link key={b.slug} to={`/builds/${b.slug}`} className="group block">
+              <div className="relative flex aspect-[1.6] items-center justify-center overflow-hidden rounded-md border border-line bg-panel transition-colors group-hover:border-ink">
+                <Clip name={b.clip} label={b.clipLabel} bg="bg-panel" className="h-[88%] w-auto transition-transform duration-500 group-hover:scale-[1.04]" />
+                <span className="absolute left-3 top-3 rounded border border-line bg-paper px-1.5 py-0.5 text-[11px]">{b.status}</span>
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-2">
+                <h3 className="text-base font-semibold tracking-tight">{b.title}</h3>
+                <ArrowRight size={16} className="shrink-0 text-ink-3 transition-transform group-hover:translate-x-0.5 group-hover:text-ink" />
+              </div>
+              <p className="mt-1 text-sm leading-6 text-ink-2">{b.tagline}</p>
+              <p className="mt-1 text-xs text-ink-3">{b.stack.slice(0, 3).join(' · ')}</p>
+            </Link>
+          ))}
+          {builds.filter((b) => b.title === '1 Element a Day').map((b) => (
+            <a key={b.title} href={b.href} className="group block">
               <div className="relative aspect-[1.6] overflow-hidden rounded-md border border-line bg-panel transition-colors group-hover:border-ink">
-                {b.image ? (
-                  <img src={b.image} alt={`${b.title} screenshot`} className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
-                ) : (
-                  <span className="absolute inset-0 flex items-center justify-center text-xs uppercase tracking-wider text-ink-3">screenshot</span>
-                )}
-                {b.status && <span className="absolute left-3 top-3 rounded border border-line bg-paper px-1.5 py-0.5 text-[11px]">{b.status}</span>}
+                {b.image ? <img src={b.image} alt={`${b.title} screenshot`} className="size-full object-cover" loading="lazy" /> : <span className="absolute inset-0 flex items-center justify-center text-xs uppercase tracking-wider text-ink-3">screenshot</span>}
               </div>
               <div className="mt-3 flex items-center justify-between gap-2">
                 <h3 className="text-base font-semibold tracking-tight">{b.title}</h3>

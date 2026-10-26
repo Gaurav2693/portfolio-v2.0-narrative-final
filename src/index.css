@@ -71,5 +71,5 @@ button:not(:disabled), a { cursor: pointer; }
 
 /* Looping clips: white-background video that reads as ink on paper in both themes. */
 .clip { mix-blend-mode: multiply; filter: contrast(1.2); }
-.dark .clip { filter: invert(1) contrast(1.2); mix-blend-mode: screen; }
+.dark .clip { filter: invert(1) hue-rotate(180deg) contrast(1.2); mix-blend-mode: screen; }
 @media (prefers-reduced-motion: reduce) { .clip { animation: none; } }
