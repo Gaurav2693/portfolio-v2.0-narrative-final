@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from 'lucide-react';
 import { gsap } from 'gsap';
 import { Page, SectionLabel, action, link } from '@/components/chrome';
 import { Reveal } from '@/components/reveal';
@@ -12,6 +12,13 @@ export default function Build() {
   const { slug } = useParams();
   const b = findBuild(slug);
   const hero = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState<{ src: string; caption: string } | null>(null);
+  useEffect(() => {
+    if (!open) return;
+    const on = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(null); };
+    window.addEventListener('keydown', on); document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', on); document.body.style.overflow = ''; };
+  }, [open]);
 
   // Hero entrance: text rises in, the clip settles from the right.
   useEffect(() => {
@@ -89,11 +96,13 @@ export default function Build() {
       <section className="border-t border-line py-14">
         <Reveal><SectionLabel number="03">Screens</SectionLabel></Reveal>
         {b.screens.length > 0 ? (
-          <Reveal stagger={0.08} className="grid gap-6 sm:grid-cols-2">
+          <Reveal stagger={0.08} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {b.screens.map((s) => (
-              <figure key={s.src} className="grid gap-2">
-                <div className="overflow-hidden rounded-md border border-line bg-panel"><img src={asset(s.src)} alt={s.caption} className="block w-full" loading="lazy" /></div>
-                <figcaption className="text-xs text-ink-2">{s.caption}</figcaption>
+              <figure key={s.src} className="grid content-start gap-2">
+                <button type="button" onClick={() => setOpen({ src: asset(s.src), caption: s.caption })} aria-label={`Open: ${s.caption}`} className="block cursor-zoom-in overflow-hidden rounded-md border border-line bg-panel transition-colors hover:border-ink">
+                  <img src={asset(s.src)} alt={s.caption} className="shot-img block w-full" loading="lazy" />
+                </button>
+                <figcaption className="text-xs leading-5 text-ink-2">{s.caption}</figcaption>
               </figure>
             ))}
           </Reveal>
@@ -119,6 +128,15 @@ export default function Build() {
           <p className="mt-1 text-sm text-ink-2">{next.tagline}</p>
         </Reveal>
       </section>
+      {open && (
+        <div role="dialog" aria-modal="true" aria-label={open.caption} onClick={() => setOpen(null)} className="fixed inset-0 z-50 grid place-items-center bg-paper/95 p-4 backdrop-blur-sm sm:p-10">
+          <button type="button" onClick={() => setOpen(null)} aria-label="Close" className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full border border-line bg-paper text-ink hover:border-ink sm:right-6 sm:top-6"><X size={16} /></button>
+          <figure onClick={(e) => e.stopPropagation()} className="grid max-h-full max-w-[1600px] gap-3">
+            <img src={open.src} alt={open.caption} className="block max-h-[84vh] w-auto max-w-full rounded-md border border-line" />
+            <figcaption className="text-center text-sm text-ink-2">{open.caption}</figcaption>
+          </figure>
+        </div>
+      )}
     </Page>
   );
 }

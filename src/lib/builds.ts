@@ -67,23 +67,31 @@ export const buildPages: BuildPage[] = [
   {
     slug: 'batcave',
     title: 'Batcave',
-    tagline: 'A short film and a fully lit cave scene, built from scratch in Three.js.',
+    tagline: 'A fully lit cave complex you can walk through, camera by camera, built from scratch in Three.js.',
     clip: 'batcave', clipLabel: 'Gaurav in a cape next to a car in a cave',
     status: 'Shipped', year: '2026',
     stack: ['Three.js', 'GSAP', 'Blender', 'TypeScript'],
-    facts: [['Role', 'Direction, modelling, lighting, code'], ['Output', 'Short film + explorable scene'], ['Repo', 'Gaurav2693/batcave-by-gaurav']],
+    facts: [['Role', 'Concept, asset direction, modelling, lighting, code'], ['Spaces', 'Hangar deck · Exo bay · Command gallery · The Well · Headland surface'], ['Repo', 'Gaurav2693/batcave-by-gaurav']],
     what: [
-      'A fan-made cave scene: rock, water, a platform, a vehicle bay, and the lighting that makes a cave feel like a place. It exists as a short film with planned camera moves and as a scene you can move through.',
-      'This is where I learned lighting properly. Most of the time went into shadows and fill, not geometry.',
+      'A fan-made underground base with the house above it: hangar deck with a lit launch pad, an exo-suit bay with robotic arms, a command gallery of screens, a deep server well, and tunnels out. Above ground, a cliff house with a pool terrace and a lighthouse across the water.',
+      'It is presented as a set of security cameras: each space has a REC view with a slow pan, and you can take the controls. This is where I learned lighting properly; most of the time went into shadows, fill and reflections, not geometry.',
     ],
     process: [
-      { title: 'Shot list before scene', body: 'Wrote the film as a list of shots. Each shot told me which part of the cave had to be modelled in detail and which could stay rough.' },
-      { title: 'Block out, then light', body: 'Blocked the cave with simple geometry, then spent most of the budget on lighting: key, fill, bounce, and the water reflections.' },
-      { title: 'Camera moves in code', body: 'Camera paths driven by GSAP timelines, so a shot can be re-timed without re-rendering anything.' },
-      { title: 'Two outputs from one scene', body: 'The same scene renders the film and runs as an explorable build. One source of truth for both.' },
+      { title: 'Plan first, in cross-section', body: 'Drew the complex as levels with heights (command gallery at −10, hangar at −18, workshop at −28, the Well down to −60) before touching a model, so every space had a reason to be where it is.' },
+      { title: 'Concept art, then an asset library', body: 'Generated concept views per space, then broke them into a modular kit: rock walls, stalactites, platforms, stairs, consoles, lifts, props. Modular pieces meant the cavern could grow without re-modelling.' },
+      { title: 'Block out, then light', body: 'Assembled the cavern from the kit with simple geometry, then spent most of the budget on lighting: key, fill, bounce, neon accents on the pad and bay, water reflections.' },
+      { title: 'Cameras as the story', body: 'Each space gets a REC camera with its own GSAP move. The same scene plays as a film and runs as an explorable build; one source of truth for both.' },
     ],
-    screens: [], // TODO: /public/builds/batcave/01.png …
-    links: [], // TODO: film link + explorable build link
+    screens: [
+      { src: 'builds/batcave/01-hangar-deck.jpg', caption: 'CAM 01 · Hangar deck. Launch pad, command gallery above, exo bay at the back.' },
+      { src: 'builds/batcave/02-exo-bay.jpg', caption: 'CAM 07 · Exo bay. Suit on the rig, robotic arms, hazard striping.' },
+      { src: 'builds/batcave/03-headland.jpg', caption: 'The headland above: house, sleeping pavilion, pool terrace, the lighthouse across the water.' },
+      { src: 'builds/batcave/06-cave-concept.jpg', caption: 'Concept design by level, made before building. Every space has a y-coordinate.' },
+      { src: 'builds/batcave/04-asset-library.jpg', caption: 'The modular asset library the cave is assembled from: rock, platforms, consoles, lifts, props.' },
+      { src: 'builds/batcave/05-exo-concept.jpg', caption: 'Exo-suit and armour concept sheets used to model the bay.' },
+    ],
+    links: [{ label: 'Open the cave', href: 'https://batcave-by-gaurav.vercel.app' }, { label: 'Source on GitHub', href: 'https://github.com/Gaurav2693/batcave-by-gaurav' }],
+    note: 'Best on a laptop or desktop with a GPU; press H in the scene for controls.',
   },
   {
     slug: 'lanterns',
