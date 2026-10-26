@@ -81,7 +81,7 @@ function Shot({ src, alt, pins }: { src: string; alt: string; pins?: { x: number
   return (
     <div data-s className="group relative self-start overflow-hidden rounded-md border border-line bg-paper">
       <button type="button" onClick={() => open({ src, alt, pins })} aria-label={`Open ${alt} full size`} className="block w-full cursor-zoom-in">
-        <img src={src} alt={alt} className="block w-full" loading="lazy" />
+        <img src={src} alt={alt} className="shot-img block w-full" loading="lazy" />
       </button>
       <span className="pointer-events-none absolute right-2 top-2 flex size-7 items-center justify-center rounded-full border border-line bg-paper/90 text-ink opacity-0 transition-opacity group-hover:opacity-100"><Maximize2 size={13} /></span>
       {pins?.map((pin, i) => (
@@ -97,7 +97,7 @@ function StateShot({ src, alt }: { src: string; alt: string }) {
   const open = useContext(LightboxCtx);
   return (
     <button type="button" onClick={() => open({ src, alt })} aria-label={`Open ${alt} full size`} className="block w-full cursor-zoom-in overflow-hidden rounded-md border border-line transition-colors hover:border-ink">
-      <img src={src} alt={alt} className="block w-full" loading="lazy" />
+      <img src={src} alt={alt} className="shot-img block w-full" loading="lazy" />
     </button>
   );
 }
@@ -156,7 +156,10 @@ function Body({ s }: { s: Slide }) {
     case 'split':
       return (
         <div className="grid gap-8">
-          <h2 data-s className={`${h} max-w-[24ch]`}>{s.title}</h2>
+          <div className="grid items-end gap-6 md:grid-cols-[1fr_auto]">
+            <h2 data-s className={`${h} max-w-[24ch]`}>{s.title}</h2>
+            <Art name={s.art} className="hidden h-44 w-72 md:block" />
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             {[s.left, s.right].map((c) => (
               <div key={c.label} data-s className={`grid content-start gap-3 rounded-md border p-6 ${'tone' in c && c.tone === 'red' ? 'border-ink' : 'border-line'}`}>
@@ -167,10 +170,7 @@ function Body({ s }: { s: Slide }) {
               </div>
             ))}
           </div>
-          <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">
-            {s.foot && <p data-s className={`${p} max-w-[70ch]`}>{s.foot}</p>}
-            <Art name={s.art} className="hidden h-44 w-72 md:block" />
-          </div>
+          {s.foot && <p data-s className={`${p} max-w-[70ch]`}>{s.foot}</p>}
         </div>
       );
     case 'figure':
@@ -181,7 +181,10 @@ function Body({ s }: { s: Slide }) {
             {s.art && <Art name={s.art} className="hidden h-36 w-56 md:block" />}
           </div>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <Shot src={s.fig.src} alt={s.fig.alt} pins={s.fig.pins} />
+            <div className="grid content-start gap-2">
+              <Shot src={s.fig.src} alt={s.fig.alt} pins={s.fig.pins} />
+              <p data-s className="text-[11px] uppercase tracking-wider text-ink-3">Click the screen to open it full size</p>
+            </div>
             <Legend title={s.legend.title} items={s.fig.pins ? s.fig.pins.map((pn) => pn.text) : s.legend.items} note={s.legend.note} />
           </div>
         </div>

@@ -7,7 +7,7 @@ import { useHeroPerformance } from '@/hooks/use-hero-performance';
 export function AnimatedHero() {
   const { root, playback, ready, replay, togglePause } = useHeroPerformance();
   const animated = ready && playback !== 'reduced' && playback !== 'unavailable';
-  return <div ref={root} className="mx-auto w-full max-w-[400px]">
+  return <div ref={root} className="group mx-auto w-full max-w-[400px]">
     <div className="relative isolate aspect-[480/600] w-full overflow-hidden" aria-label="An illustrated Gaurav turns a tangled system into an organized diagram with a playful roundhouse kick.">
       <HeroThought/>
       <svg aria-hidden="true" viewBox="0 0 320 12" className="pointer-events-none absolute bottom-20 left-[10%] z-10 h-3 w-[80%] fill-none stroke-line"><path d="M3 7Q77 4 151 7T316 6" strokeWidth="1" strokeLinecap="round"/></svg>
@@ -25,7 +25,7 @@ export function AnimatedHero() {
     </div>
     <div className="relative z-30 space-y-2 bg-paper px-2 pb-3 text-center">
       <p data-hero="caption" className="min-h-14 whitespace-normal break-words py-2 text-sm leading-7 text-ink-2">Take a moment. Have a look around.</p>
-      {animated && <div className="flex items-center justify-center gap-4">
+      {animated && <div className="flex items-center justify-center gap-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-within:opacity-100">
         <button onClick={replay} className="inline-flex min-h-9 items-center gap-2 text-xs text-ink-2 hover:text-ink"><RotateCcw size={13}/>A little chaos, on replay</button>
         {(playback === 'playing' || playback === 'paused' || playback === 'idle') && <button onClick={togglePause} aria-label={playback === 'paused' ? 'Resume animation' : 'Pause animation'} className="flex size-9 items-center justify-center text-ink-2 hover:text-ink">{playback === 'paused' ? <Play size={14}/> : <Pause size={14}/>}</button>}
       </div>}

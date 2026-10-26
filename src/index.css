@@ -51,6 +51,11 @@ button:not(:disabled), a { cursor: pointer; }
 /* Line-art sprites are black ink on transparent (see scripts/make-transparent.py). Dark mode just inverts them. */
 .art { }
 .dark .art { filter: invert(1); }
+/* Coloured line-art: invert flips the ink, hue-rotate puts the accent colour back. */
+.art-color { }
+.dark .art-color { filter: invert(1) hue-rotate(180deg); }
+/* Product screenshots glare on the dark page; soften them a touch. */
+.dark .shot-img { opacity: .88; }
 
 /* Reveal-on-scroll initial state (GSAP animates to visible). */
 .reveal { opacity: 0; transform: translateY(18px); will-change: opacity, transform; }

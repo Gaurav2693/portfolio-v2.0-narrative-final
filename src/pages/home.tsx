@@ -4,15 +4,14 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { PortfolioArt } from '@/components/portfolio-art';
 import { AnimatedHero } from '@/components/animated-hero';
-import { CostOfAttentionArt, CpqArt } from '@/components/study-art';
 import { Reveal } from '@/components/reveal';
 import { Clip } from '@/components/clip';
 import { WithAI } from '@/components/with-ai';
 import { Page, SectionLabel, action, link } from '@/components/chrome';
 import { site, caseStudies, builds, earlier } from '@/lib/site';
+import { asset } from '@/lib/assets';
 import { buildPages } from '@/lib/builds';
 
-const studyArt = { 'cost-of-attention': CostOfAttentionArt, cpq: CpqArt } as const;
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -62,11 +61,11 @@ export default function Home() {
         <Reveal><SectionLabel number="01" aside="Two studies. Decisions, costs, what shipped.">Case studies</SectionLabel></Reveal>
         <Reveal stagger={0.12} className="grid gap-8 md:grid-cols-2">
           {caseStudies.map((s) => {
-            const Art = studyArt[s.slug as keyof typeof studyArt];
             return (
               <Link key={s.slug} to={`/work/${s.slug}`} className="group flex flex-col rounded-lg border border-line transition-colors hover:border-ink">
-                <div className="flex aspect-[1.8] items-center justify-center border-b border-line bg-panel px-8 text-ink">
-                  {Art ? <Art className="h-full w-full max-w-[380px] transition-transform duration-300 group-hover:-translate-y-1" /> : null}
+                <div className="relative flex aspect-[1.8] items-center justify-center overflow-hidden border-b border-line bg-panel px-6 pt-6">
+                  <img src={asset(`art/card-${s.slug === 'cost-of-attention' ? 'coa' : s.slug}.png`)} alt="" className="art-color h-full w-full object-contain object-bottom transition-transform duration-500 group-hover:-translate-y-1" loading="lazy" />
+                  {s.draft && <span className="absolute left-3 top-3 rounded border border-line bg-paper px-1.5 py-0.5 text-[11px] text-ink-2">{s.draft}</span>}
                 </div>
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <p className="text-xs uppercase tracking-wider text-ink-2">{s.eyebrow}</p>
@@ -98,7 +97,7 @@ export default function Home() {
           {buildPages.map((b) => (
             <Link key={b.slug} to={`/builds/${b.slug}`} className="group block">
               <div className="relative flex aspect-[1.6] items-center justify-center overflow-hidden rounded-md border border-line bg-panel transition-colors group-hover:border-ink">
-                <Clip name={b.clip} label={b.clipLabel} bg="bg-panel" className="h-[88%] w-auto transition-transform duration-500 group-hover:scale-[1.04]" />
+                <Clip name={b.clip} label={b.clipLabel} bg="bg-panel" hoverPlay className="h-[82%] w-auto transition-transform duration-500 group-hover:scale-[1.04]" />
                 <span className="absolute left-3 top-3 rounded border border-line bg-paper px-1.5 py-0.5 text-[11px]">{b.status}</span>
               </div>
               <div className="mt-3 flex items-center justify-between gap-2">
@@ -154,7 +153,7 @@ export default function Home() {
           </div>
         </Reveal>
         <Reveal delay={0.15} className="flex items-center justify-center">
-          <Clip name="lets-talk" label="An envelope opening" className="size-56 md:size-64" />
+          <Clip name="lets-talk" label="An envelope opening" className="size-64 md:size-80" />
         </Reveal>
       </section>
     </Page>

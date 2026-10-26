@@ -22,6 +22,7 @@ export type CaseStudy = {
   lead: string;
   facts: [string, string][];
   gated?: boolean;
+  draft?: string; // shown as a badge on the card when the study is still being rewritten
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -42,6 +43,7 @@ export const caseStudies: CaseStudy[] = [
     eyebrow: 'Brightspeed · Sales quoting',
     title: 'Brightquote CPQ',
     lead: 'Turning a 47-field quoting form into a guided flow that sales reps can finish on a call.',
+    draft: 'Draft · being rewritten in the same format',
     facts: [
       ['Role', 'Design lead, first production design system'],
       ['Decision', 'Conversational flow over a denser form'],
