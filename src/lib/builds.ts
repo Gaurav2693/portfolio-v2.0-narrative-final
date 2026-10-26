@@ -39,7 +39,9 @@ export const buildPages: BuildPage[] = [
       { title: 'AI-assisted asset pipeline', body: 'Characters through Mixamo for rigs and Meshy for geometry, cleaned up by hand. Fast enough that I can iterate on look without stalling the code.' },
       { title: 'Stages as set pieces', body: 'Each stage is a different kind of world with its own boss. The car is at roughly half of its planned powers; the rest arrive stage by stage.' },
     ],
-    screens: [], // TODO: /public/builds/by1-batcar/01.png …
+    screens: [
+      { src: 'builds/by1-batcar/01-ch1-turnaround.jpg', caption: 'Ch1 turnaround: the courier, with the cybernetic arm and the core on his chest.' },
+    ],
     links: [], // TODO: playable link when the first stage is ready
     note: 'Being built on evenings. No public build yet; a first playable stage is the next milestone.',
   },
@@ -96,24 +98,29 @@ export const buildPages: BuildPage[] = [
   {
     slug: 'lanterns',
     title: 'Lanterns',
-    tagline: 'A diorama that tells one scene as a sequence of posed beats.',
+    tagline: 'A 46-second film about three orbital strikes on one small town, and the one he could hold.',
     clip: 'lanterns', clipLabel: 'Gaurav lifting a glowing green cube',
     status: 'In progress', year: '2026',
-    stack: ['Three.js', 'Orthographic camera', 'Rigged character', 'TypeScript'],
-    facts: [['Role', 'Story, character, scene, code'], ['Format', 'Orthographic diorama'], ['Scope', 'One scene, told in beats']],
+    stack: ['Three.js', 'Orthographic camera', 'Rigged low-poly character', 'TypeScript'],
+    facts: [['Role', 'Story, character, scene, camera, code'], ['Format', 'Isometric diorama · follow camera · 25 panels'], ['Runtime', '46 s, four acts']],
     what: [
-      'A fan story told as an orthographic diorama: one location, one event, a character I generated and rigged myself, posed per story beat. You move through beats, not through space.',
-      'The constraint was the point. A single scene forces every beat to earn its place.',
+      'A fan story told as an isometric diorama. GL1 is at home when the first beam lands across town. He is late for the first strike, holds a shield over the second until his ring drops from 68% to 7%, and has nothing left for the third. Then he goes up after whatever is firing.',
+      'The whole film is one town and one camera rig. Every storyboard frame is captured from the film itself with the follow camera, so the board and the build never drift apart.',
     ],
     process: [
-      { title: 'One scene, many beats', body: 'Wrote the event as beats first. The diorama only needs what the beats need.' },
-      { title: 'Orthographic on purpose', body: 'Orthographic camera keeps the diorama readable from every beat and removes perspective drift between poses.' },
-      { title: 'Generate, rig, pose', body: 'Character generated to a definition, rigged, then posed by hand for each beat. Cheaper than animation and more controllable.' },
-      { title: 'Light the moment', body: 'Each beat has its own light setup so the same scene reads differently as the event unfolds.' },
+      { title: 'Character before scene', body: 'Two sheets for one character: a civilian look for home and a suit for flight, with turnarounds, head angles, poses and props. Low-poly on purpose, so the rig stays cheap and the silhouette reads from an isometric camera.' },
+      { title: 'Storyboard the flight first', body: 'A 12-panel departure sequence (home → flash → launch → cruise → arrival) locked the camera language before any act had a plot.' },
+      { title: 'The strike clock', body: 'Three beams on a timeline against his position and ring charge. Beams two and three overlap by 2.6 s; that overlap is the reason the ending is a loss, not a choice I made for drama.' },
+      { title: 'Twenty-five panels, captured not drawn', body: 'Version 7 of the board: four acts, 25 panels with film timecodes, every frame rendered from the build with titles hidden. Panel 02 is the only cutaway.' },
     ],
-    screens: [], // TODO: /public/builds/lanterns/01.png …
-    links: [], // TODO: link when the first beats are public
-    note: 'In progress. The first beats exist; the full sequence is being posed.',
+    screens: [
+      { src: 'builds/lanterns/02-three-strikes-storyboard.jpg', caption: 'Three Strikes, film version 7: strike clock and 25 panels across four acts, each with its film timecode.' },
+      { src: 'builds/lanterns/01-departure-storyboard.jpg', caption: 'Departure storyboard: from home to target in twelve panels.' },
+      { src: 'builds/lanterns/04-suit-sheet.jpg', caption: 'GL1 suit sheet: turnaround, head views, ring hand, flight and shield poses.' },
+      { src: 'builds/lanterns/03-civilian-sheet.jpg', caption: 'GL1 civilian sheet: turnaround, head angles, everyday poses and props for the home scenes.' },
+    ],
+    links: [], // TODO: film link when it is public
+    note: 'In progress. The film plays end to end; the last act is still being lit.',
   },
   {
     slug: 'ronin',

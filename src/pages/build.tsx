@@ -100,7 +100,7 @@ export default function Build() {
             {b.screens.map((s) => (
               <figure key={s.src} className="grid content-start gap-2">
                 <button type="button" onClick={() => setOpen({ src: asset(s.src), caption: s.caption })} aria-label={`Open: ${s.caption}`} className="block cursor-zoom-in overflow-hidden rounded-md border border-line bg-panel transition-colors hover:border-ink">
-                  <img src={asset(s.src)} alt={s.caption} className="shot-img block w-full" loading="lazy" />
+                  <img src={asset(s.src)} alt={s.caption} className="shot-img block aspect-[3/2] w-full object-cover object-top" loading="lazy" />
                 </button>
                 <figcaption className="text-xs leading-5 text-ink-2">{s.caption}</figcaption>
               </figure>
