@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import { gsap } from 'gsap';
 import { PortfolioArt } from '@/components/portfolio-art';
 import { AnimatedHero } from '@/components/animated-hero';
@@ -150,6 +150,7 @@ export default function Home() {
             <a className={action} href={`mailto:${site.email}`}>{site.email} <ArrowUpRight size={16} /></a>
             <a className={link} href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
             <a className={link} href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+            <a className={link} href={asset(site.resume)} download>Resume <Download size={14} /></a>
           </div>
         </Reveal>
         <Reveal delay={0.15} className="flex items-center justify-center">

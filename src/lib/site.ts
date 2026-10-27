@@ -9,6 +9,7 @@ export const site = {
   email: 'imgaurav2693@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gauravmystrey',
   github: 'https://github.com/Gaurav2693',
+  resume: 'Gaurav-Mishra-Resume.pdf', // in /public; replace the file to update
   headline: ['I design systems', 'for complicated', 'decisions.'],
   subline:
     'Enterprise telecom — billing, CPQ, agent tools. I prototype in code, so I know what a decision costs before engineering has to tell me.',

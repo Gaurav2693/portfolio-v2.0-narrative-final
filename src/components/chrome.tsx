@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Download, Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { asset } from '@/lib/assets';
 import { site } from '@/lib/site';
@@ -46,6 +46,7 @@ export function Header() {
             ? <a key={n.label} href={n.href.replace('/', '')} className="text-sm hover:underline underline-offset-4">{n.label}</a>
             : <Link key={n.label} to={n.href} className="text-sm hover:underline underline-offset-4">{n.label}</Link>
         ))}
+        <a href={asset(site.resume)} download className="inline-flex items-center gap-1.5 text-sm hover:underline underline-offset-4">Resume <Download size={13} /></a>
         <ThemeToggle />
         <a href={home ? '#contact' : '/#contact'} className={action}>Let’s talk <ArrowUpRight size={15} /></a>
       </nav>
@@ -60,6 +61,7 @@ export function Header() {
           {[...NAV, { label: 'Let’s talk', href: '/#contact' }].map((n) => (
             <Link key={n.label} to={n.href} onClick={() => setMenu(false)}>{n.label}</Link>
           ))}
+          <a href={asset(site.resume)} download className="inline-flex items-center gap-1.5" onClick={() => setMenu(false)}>Resume <Download size={13} /></a>
         </nav>
       )}
     </header>
@@ -70,6 +72,7 @@ export function Footer() {
   return (
     <footer className="flex flex-wrap items-center justify-between gap-5 border-t border-line py-6 text-xs text-ink-2">
       <span>© {new Date().getFullYear()} {site.name}</span>
+      <a href={asset(site.resume)} download className="inline-flex items-center gap-1.5 hover:text-ink">Resume (PDF) <Download size={12} /></a>
       <span>{site.location}</span>
     </footer>
   );
