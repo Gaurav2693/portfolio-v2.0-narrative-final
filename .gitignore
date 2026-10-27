@@ -1,4 +1,4 @@
-.vercel
 node_modules
 dist
+dist-preview
 .DS_Store
