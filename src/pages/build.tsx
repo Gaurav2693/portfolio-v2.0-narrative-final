@@ -8,6 +8,13 @@ import { Clip } from '@/components/clip';
 import { buildPages, findBuild } from '@/lib/builds';
 import { asset } from '@/lib/assets';
 
+// Section numbers shift with the optional sections.
+function num(b: { timeline?: unknown; principles?: unknown }, which: 'screens' | 'links') {
+  let n = 2 + (b.timeline ? 1 : 0) + (b.principles ? 1 : 0);
+  if (which === 'screens') n += 1; else n += 2;
+  return String(n).padStart(2, '0');
+}
+
 export default function Build() {
   const { slug } = useParams();
   const b = findBuild(slug);
@@ -92,10 +99,37 @@ export default function Build() {
         </Reveal>
       </section>
 
+      {/* ── Timeline (optional): two tracks against one clock ─── */}
+      {b.timeline && (
+        <section className="border-t border-line py-14">
+          <Reveal><SectionLabel number="03" aside={b.timeline.intro}>The night, both tracks</SectionLabel></Reveal>
+          <Reveal className="overflow-x-auto">
+            <table className="w-full min-w-[720px] border-collapse text-sm">
+              <thead>
+                <tr className="text-left text-[11px] font-semibold uppercase tracking-[.16em] text-ink-2">
+                  <th className="w-24 border-b border-line py-2 pr-4 font-semibold">{b.timeline.heading[0]}</th>
+                  <th className="border-b border-line py-2 pr-6 font-semibold">{b.timeline.heading[1]}</th>
+                  <th className="border-b border-line py-2 font-semibold">{b.timeline.heading[2]}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {b.timeline.rows.map((r) => (
+                  <tr key={r.t} className="align-top">
+                    <td className="border-b border-line py-4 pr-4 text-xs text-ink-3 tabular-nums">{r.t}</td>
+                    <td className="border-b border-line py-4 pr-6 leading-6">{r.a}</td>
+                    <td className="border-b border-line py-4 leading-6">{r.b}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Reveal>
+        </section>
+      )}
+
       {/* ── Principles (optional) ────────────────────────────── */}
       {b.principles && (
         <section className="border-t border-line py-14">
-          <Reveal><SectionLabel number="03" aside="What it is built on, not what it does.">Principles</SectionLabel></Reveal>
+          <Reveal><SectionLabel number={b.timeline ? '04' : '03'} aside="What it is built on, not what it does.">Principles</SectionLabel></Reveal>
           <Reveal stagger={0.07} className="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {b.principles.map((pr, i) => (
               <div key={pr.title} className="grid grid-cols-[28px_1fr] gap-3 border-t border-line pt-5">
@@ -109,7 +143,7 @@ export default function Build() {
 
       {/* ── Screens ──────────────────────────────────────────── */}
       <section className="border-t border-line py-14">
-        <Reveal><SectionLabel number={b.principles ? '04' : '03'}>Screens</SectionLabel></Reveal>
+        <Reveal><SectionLabel number={num(b, 'screens')}>Screens</SectionLabel></Reveal>
         {b.screens.length > 0 ? (
           <Reveal stagger={0.08} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {b.screens.map((s) => (
@@ -131,7 +165,7 @@ export default function Build() {
       {/* ── Links + next ─────────────────────────────────────── */}
       <section className="grid gap-8 border-t border-line py-14 sm:grid-cols-2">
         <Reveal>
-          <SectionLabel number={b.principles ? '05' : '04'}>Links</SectionLabel>
+          <SectionLabel number={num(b, 'links')}>Links</SectionLabel>
           <div className="flex flex-wrap items-center gap-6">
             {b.links.length > 0 ? b.links.map((l) => <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={link}>{l.label} <ArrowUpRight size={15} /></a>) : <span className="text-sm text-ink-3">Nothing public yet.</span>}
           </div>

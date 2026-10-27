@@ -16,6 +16,7 @@ export type BuildPage = {
   what: string[];            // 1–3 short paragraphs
   process: { title: string; body: string }[]; // 3–5 steps, brief
   principles?: { title: string; body: string }[]; // optional: the rules the thing is built on
+  timeline?: { heading: [string, string, string]; intro?: string; rows: { t: string; a: string; b: string }[] }; // optional: two tracks against one clock
   screens: { src: string; caption: string }[];
   links: { label: string; href: string }[];
   note?: string;             // honest status line, shown under the links
@@ -99,29 +100,53 @@ export const buildPages: BuildPage[] = [
   {
     slug: 'lanterns',
     title: 'Lanterns',
-    tagline: 'A 46-second film about three orbital strikes on one small town, and the one he could hold.',
+    tagline: 'One night in Rushville, Nebraska. Two heroes on opposite ends of the same road, four orbital strikes, and both of them go up.',
     clip: 'lanterns', clipLabel: 'Gaurav lifting a glowing green cube',
-    status: 'In progress', year: '2026',
-    stack: ['Three.js', 'Orthographic camera', 'Rigged low-poly character', 'TypeScript'],
-    facts: [['Role', 'Story, character, scene, camera, code'], ['Format', 'Isometric diorama · follow camera · 25 panels'], ['Runtime', '46 s, four acts']],
+    status: 'Shipped', year: '2026',
+    stack: ['Three.js', 'Orthographic film camera', 'Behind-hero chase camera', 'Rigged low-poly characters', 'Web Audio', 'TypeScript'],
+    facts: [['Role', 'Story, direction, world, characters, cameras, code'], ['Tracks', 'GL1 · 48 s · 12 panels — BY1 · 51 s · 15 panels'], ['Town', 'Farm, two stations, grain elevator, working yard, football field, highway stop, wind farm'], ['Checkpoint', '28 · every panel is a real frame from the film']],
     what: [
-      'A fan story told as an isometric diorama. GL1 is at home when the first beam lands across town. He is late for the first strike, holds a shield over the second until his ring drops from 68% to 7%, and has nothing left for the third. Then he goes up after whatever is firing.',
-      'The whole film is one town and one camera rig. Every storyboard frame is captured from the film itself with the follow camera, so the board and the build never drift apart.',
+      'A fan film told as an isometric diorama of a whole town. On the west side, GL1 is on his couch at the farmhouse when the first beam lands on the petrol pump. On the east side, BY1 is at a table in a pub at the highway stop when a second weapon locks on the wind farm. The film runs both tracks against one clock.',
+      'GL1 is late for the first strike, holds a shield over the second, and loses the third to the grain elevator. BY1 cannot shield anything; his aircraft rises from a hatch under the football field, picks him up behind the pub, and a decoy drone pulls the next lock off the motel roof into an empty field. Then both climb through the same cloud deck, toward whatever is firing.',
+      'Two cameras carry it: an orthographic film camera that sees the town as a model, and a behind-the-hero chase camera, the kind you get in a third-person game, for the moments where you should feel the speed. Sound is what GL1 hears. There is no dialogue; every attack is announced by the same targeting scan, so you learn the weapon by watching it.',
+    ],
+    timeline: {
+      heading: ['Film time', 'GL1 · west, the farmhouse', 'BY1 · east, the highway stop'],
+      intro: 'Both boards are captured from the same build, so the two tracks line up frame for frame. Read down for the night; read across for who is where.',
+      rows: [
+        { t: '0 – 4 s', a: 'High over the county, Rushville under a ring of cloud. Down to one farmhouse: GL1 on the couch. In town, strike 1 has locked on the petrol pump and is charging.', b: 'The Windbreak, a pub at the highway stop. BY1 at a table, civil clothes, a drink. At 3.4 s the weapon locks on the wind farm behind the car park.' },
+        { t: '4 – 8 s', a: 'Beam 1 fires. He sees it through the window; the shockwave is 1.5 s away. Out in the yard the suit spreads from the ring hand. Crouch, launch.', b: 'The beam drills the turbine nearest the pub. The top comes off, the blades fly, the stop blacks out.' },
+        { t: '8 – 14 s', a: 'Corn skim, climb, cruise. Behind GL1, the town coming up.', b: 'Up and running for the kitchen door, through the kitchen, out the back. He stops in the yard and looks north at the fire.' },
+        { t: '14 – 20 s', a: 'He brakes into a hover at the pump as the underground tank goes. Strike 1: lost.', b: 'Left wrist up, a cyan pip. Twenty miles west, under the football field, three quarters of the pitch is doors. They open; the aircraft rises on the lift, cyan under the hangar lights.' },
+        { t: '20 – 29 s', a: 'Strike 2 locks on the Gas & Go. He leaves at once, flat out across town. A dome over the forecourt; beam 2 lands on it and holds. Strike 2: saved.', b: 'Lift-off from midfield, away east over the county. He runs round the yard to the field behind the pub as it comes in. Wings fold, canopy opens, lift pods glowing. He climbs in as he is; the canopy closes over him.' },
+        { t: '29 – 39 s', a: 'Pinned under beam 2 he could not leave. Now to the elevator, which beam 3 has been cooking since 30.4 s. A clean shield on the silo, beam cut; the grain dust goes anyway. Strike 3: lost. Rain starts.', b: 'Up, and a circuit over the stop toward town. The bay opens; the drone drops. A fourth lock is on the motel. The drone pulls the lock off the roof and the beam follows it to an empty field.' },
+        { t: '39 – 51 s', a: 'He looks at the sky, then goes. Ring at 80%. Power was never the problem; time was. Through the cloud: the boom, the decks, out through the top. Toward the source.', b: 'Nose up, then a trajectory: level to vertical over the county. Not a missile; a ship. The same shots GL1 got, small against the cloud, the boom, the rings. Above the top deck, after GL1.' },
+      ],
+    },
+    principles: [
+      { title: 'Late, not empty', body: 'GL1 fails the third strike because he was pinned under the second, not because the ring ran out. It ends the night at 80%. A hero who runs out of power is an excuse; a hero who runs out of time is a story.' },
+      { title: 'One weapon rule, no dialogue', body: 'Low-power targeting scan, aim refined from the reflected signal, lock freezes, then the pulse. The same visual before every attack. Once you have seen it twice you can read the fourth one, which is what lets the decoy work without a word.' },
+      { title: 'Two heroes, two answers', body: 'GL1 holds. BY1 diverts. Same weapon, same night, and the film is about which answer each of them can afford.' },
+      { title: 'Sound is what GL1 hears', body: 'Procedural Web Audio, mixed from his position. The first strike is something he feels through the house before he understands it.' },
+      { title: 'Same climb, different physics', body: 'Both get the cinematic climb. GL1 is a streak that gets visibly faster midway. The aircraft is a trajectory, level to vertical, like a ship and not a missile, because nothing about it is powered the way he is.' },
+      { title: 'Build the world first', body: 'The town was planned and built in phases before the action was re-cut into it: farm, stations, elevator, a working yard, the football field with the hatch, the highway stop, the wind farm. Action sequences stayed where they were; the world grew around them.' },
     ],
     process: [
-      { title: 'Character before scene', body: 'Two sheets for one character: a civilian look for home and a suit for flight, with turnarounds, head angles, poses and props. Low-poly on purpose, so the rig stays cheap and the silhouette reads from an isometric camera.' },
-      { title: 'Storyboard the flight first', body: 'A 12-panel departure sequence (home → flash → launch → cruise → arrival) locked the camera language before any act had a plot.' },
-      { title: 'The strike clock', body: 'Three beams on a timeline against his position and ring charge. Beams two and three overlap by 2.6 s; that overlap is the reason the ending is a loss, not a choice I made for drama.' },
-      { title: 'Twenty-five panels, captured not drawn', body: 'Version 7 of the board: four acts, 25 panels with film timecodes, every frame rendered from the build with titles hidden. Panel 02 is the only cutaway.' },
+      { title: 'Shot 1 as proof', body: 'Started with one shot, the petrol pump and the lock-on, to settle the look: a Three.js NPR pass with ink outlines from depth and normals, hatching, stepped frames with line boil. The look got approved before a second shot existed.' },
+      { title: 'Two cameras, then the town', body: 'An orthographic film camera for the town-as-model view, and a behind-hero chase camera for speed. Then the world: a plan with real places, built in phases, each phase live on the page before the next.' },
+      { title: 'A second track against the same clock', body: 'BY1’s 51 seconds were written as a parallel sequence to GL1’s 48: the highway stop at the other end of the main road, the hatch under the football field, the decoy drone. Characters, aircraft and drone generated and rigged to sheets, then placed.' },
+      { title: 'Boards captured, not drawn', body: 'Both storyboards are real frames from checkpoint 28 with titles hidden, timecoded in film seconds. The board is a view of the build, so it cannot lie about what exists.' },
     ],
     screens: [
-      { src: 'builds/lanterns/02-three-strikes-storyboard.jpg', caption: 'Three Strikes, film version 7: strike clock and 25 panels across four acts, each with its film timecode.' },
-      { src: 'builds/lanterns/01-departure-storyboard.jpg', caption: 'Departure storyboard: from home to target in twelve panels.' },
+      { src: 'builds/lanterns/06-gl1-three-strikes-one-night.jpg', caption: 'GL1 — three strikes, one night. 12 panels, 48 s. ORTHO film camera and POV behind GL1.' },
+      { src: 'builds/lanterns/05-by1-highway-stop.jpg', caption: 'BY1 — the highway stop. 15 panels, 51 s. A civilian at a pub, an aircraft under the stadium, a drone that takes the lock.' },
+      { src: 'builds/lanterns/02-three-strikes-storyboard.jpg', caption: 'Earlier board, film version 7: the strike clock that set the timing of the night.' },
+      { src: 'builds/lanterns/01-departure-storyboard.jpg', caption: 'Departure storyboard: from home to target in twelve panels, the first thing boarded.' },
       { src: 'builds/lanterns/04-suit-sheet.jpg', caption: 'GL1 suit sheet: turnaround, head views, ring hand, flight and shield poses.' },
       { src: 'builds/lanterns/03-civilian-sheet.jpg', caption: 'GL1 civilian sheet: turnaround, head angles, everyday poses and props for the home scenes.' },
     ],
-    links: [], // TODO: film link when it is public
-    note: 'In progress. The film plays end to end; the last act is still being lit.',
+    links: [{ label: 'Watch the film', href: 'https://lanterns-by-gaurav.vercel.app' }],
+    note: 'Act 1 is live. Next: where the beams come from, and the two of them noticing each other above the cloud. Source is in a private repo (site, tools, boards); ask and I will walk you through it.',
   },
   {
     slug: 'ronin',
