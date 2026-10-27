@@ -6,10 +6,9 @@ export const site = {
   role: 'Design Engineer',
   location: 'Bengaluru, India',
   status: 'Open to FDE & design-engineer roles',
-  // TODO: your public contact address
-  email: 'hello@gauravmishra.design',
-  linkedin: 'https://www.linkedin.com/in/', // TODO
-  github: 'https://github.com/', // TODO
+  email: 'imgaurav2693@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/gauravmystrey',
+  github: 'https://github.com/Gaurav2693',
   headline: ['I design systems', 'for complicated', 'decisions.'],
   subline:
     'Enterprise telecom — billing, CPQ, agent tools. I prototype in code, so I know what a decision costs before engineering has to tell me.',
