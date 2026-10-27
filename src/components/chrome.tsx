@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { PortfolioArt } from '@/components/portfolio-art';
+import { asset } from '@/lib/assets';
 import { site } from '@/lib/site';
 
 export const action =
@@ -34,7 +34,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 -mx-6 flex h-20 items-center justify-between border-b border-line bg-paper/85 px-6 backdrop-blur sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
       <Link to="/" aria-label={`${site.name} home`} className="flex items-center gap-3">
-        <span className="flex size-10 items-center justify-center overflow-hidden rounded-full border border-line bg-paper"><PortfolioArt crop={[996, 366, 78, 88]} label="" className="w-8 translate-y-0.5" /></span>
+        <img src={asset('art/avatar.png')} alt="" className="art size-10 rounded-full" width={40} height={40} />
         <span>
           <strong className="block text-sm">{site.name}</strong>
           <span className="text-xs text-ink-2">{site.role}</span>
