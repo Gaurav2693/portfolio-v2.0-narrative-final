@@ -1,0 +1,225 @@
+// CPQ 2.0 & Express Quote — slide content. Edit copy here, not in the component.
+// Numbers are the ones reported by the business and by the sales team; where the method is unverified, the copy says so.
+import type { Study } from '@/lib/study';
+import { asset } from '@/lib/assets';
+const img = (n: string) => asset(`cpq/${n}.png`);
+
+export const cpq: Study = {
+  slug: 'cpq',
+  title: 'CPQ 2.0 & Express Quote',
+  eyebrow: 'Brightspeed · Sales quoting',
+  artDir: 'cpq',
+  next: { to: '/work/cost-of-attention', label: 'Next study: The Cost of Attention' },
+  slides: [
+    {
+      nav: 'Overview',
+      kind: 'title',
+      eyebrow: 'Case study · Brightspeed',
+      title: 'CPQ 2.0 & Express Quote',
+      lead: 'A quoting tool that took agents two and a half hours per quote, rebuilt as a four-stage flow that takes thirty minutes. Then, when the data showed customers stop paying attention at fifteen, a second, faster path for the simple cases. I was the only designer on both, and on the second one I wrote the frontend.',
+      facts: [['Role', 'Sole designer · ~300 developers · 560 screens'], ['Also', 'Design system from scratch · Express Quote React UI'], ['Status', 'CPQ 2.0 shipped, 700+ daily users · Express Quote shipped'], ['System', 'cpq-design-system-v20.vercel.app']],
+      art: 'whiteboard',
+    },
+    {
+      nav: 'The problem',
+      kind: 'text',
+      chapter: '01 · The problem',
+      title: 'Forty-seven steps in ServiceNow, and a quote that took most of an afternoon.',
+      body: [
+        'An agent at Brightspeed helps a small or mid-size business buy connectivity and voice services. The opportunity starts in Salesforce; the quote gets built in CPQ. Picture a hospital with four branches. Each site can have different services, different product eligibility (copper here, fibre there), different billing accounts. The agent has to get all of that right without calling the customer back four times.',
+        'CPQ 1.0 was a ServiceNow workflow with around 47 steps. Data came from BRIM and AMS and the APIs failed often enough that agents had learned to expect it. Nothing was carried forward between steps, so the agent had to remember what they had entered, or write it down. Invalid product combinations were easy to pick and expensive to unpick later. One quote took two and a half to three hours.',
+        'In the first walkthrough someone said the chance of an error on a quote was "about 95%". I have never been able to pin down how that was measured, so I do not use it as a number. I use it as a description of how people felt about the tool.',
+      ],
+      aside: [
+        { label: 'Legacy steps', value: '~47' },
+        { label: 'Quote time, CPQ 1.0', value: '2.5–3 h', tone: 'red' },
+        { label: 'Daily users', value: '700+' },
+        { label: 'Clarification calls per quote', value: '3–4' },
+      ],
+      quote: 'The agent was being asked to hold the whole order in their head. The tool was not holding any of it.',
+    },
+    {
+      nav: 'Three systems',
+      kind: 'ledger',
+      chapter: '01 · The problem',
+      title: 'Three systems, three numbers. They should not be added together.',
+      body: [
+        'This story has two redesigns in it and it is easy to blur them. CPQ 2.0 is the React rebuild of the full multi-site workflow. Express Quote came later and only handles eligible single-site quotes. The eight-to-ten-minute figure belongs to Express Quote. CPQ 2.0 is thirty minutes, and for a four-site order thirty minutes is the right amount of time.',
+        'The times are what the business reported after launch. I did not run a stopwatch study, and the eight-to-ten minutes is a typical time rather than a measured average.',
+      ],
+      rows: [
+        { k: 'CPQ 1.0 · ServiceNow, ~47 steps', v: '2.5–3 hours', tone: 'red' },
+        { k: 'CPQ 2.0 · React, four stages, multi-site', v: '~30 minutes' },
+        { k: 'Express Quote · single site, serviceability first', v: '~8–10 minutes' },
+      ],
+    },
+    {
+      nav: 'Four stages',
+      kind: 'figure',
+      chapter: '02 · CPQ 2.0',
+      title: 'Forty-seven steps became four stages. The agent is on the last one here.',
+      fig: {
+        src: img('cpq-step4'), alt: 'CPQ 2.0, stage 4 of 4: Schedule Visit & Submit Order, with the stepper on top, accordion forms on the left and the dark Live Snapshot panel on the right',
+        pins: [
+          { x: 50, y: 9, text: 'Four stages across the top, with progress. Each one has substeps inside it, but the agent only ever sees four.' },
+          { x: 42, y: 18, text: 'Who owns the quote and who it is assigned to right now. Quotes get handed between people, and this used to get lost.' },
+          { x: 31, y: 31, text: 'Stage 4 is mostly confirmation: requested date, appointment, order. Both are already done, because the data was captured earlier.' },
+          { x: 39, y: 60, text: 'The order went through. The order numbers from the downstream systems come back into the form so the agent does not have to go looking.' },
+          { x: 75, y: 40, text: 'The Live Snapshot. Everything the agent has entered or imported so far, always on screen. The panel is dark so it reads as a different kind of thing from the forms.' },
+          { x: 77, y: 68, text: 'TARN expiry and order status live in the snapshot too, because that is where the agent looks when a customer asks.' },
+        ],
+      },
+      legend: { title: 'What is on this screen', items: [], note: 'Stage 1 carries most of the thinking: address, sites, products, eligibility per location, contacts, number porting. I put roughly 60% of the decisions there on purpose, so that stages 2 to 4 are mostly review. That 60% is my estimate, not a measured figure.' },
+    },
+    {
+      nav: 'The system',
+      kind: 'split',
+      chapter: '02 · CPQ 2.0',
+      title: 'The interaction model: stepper on top, forms on the left, memory on the right.',
+      left: { label: 'Left · accordion forms', title: 'One section at a time.', body: 'Each stage is a column of collapsible sections. Only the one you are working in is open. The full complexity of a four-site order is still there, but you meet it one section at a time, in an order that makes sense, with the fields the system can fill already filled.', note: 'Why: the old tool showed everything at once and the agent had to find the next thing to do.' },
+      right: { label: 'Right · Live Snapshot', title: 'The tool remembers, so the agent does not have to.', body: 'A persistent dark panel with the opportunity, account, quote ID, imported Salesforce data and everything the agent has entered. A Service Cart button opens a modal with the site-by-site, BAN-by-BAN detail: services, quantities, feature codes, MRC, NRC, totals. The modal exists because the panel would otherwise be a mile long.', note: 'Why: the agent was being asked to hold the order in their head. Now it is on the screen.' },
+      foot: 'The complexity did not go away. A four-site telecom order is complicated. What changed is that it was sequenced, the parts a system could decide were automated, and the rest was shown only when it mattered.',
+    },
+    {
+      nav: 'Design system',
+      kind: 'grid',
+      chapter: '03 · The design system',
+      title: 'CPQ 2.0 needed a component library that did not exist, so I built one and deployed it.',
+      intro: 'There were around 300 developers on the programme and one designer. A Figma file was not going to survive that ratio. So I built the design system as a deployed React site: every component rendered live, with its tokens, its states and copy-paste JSX. A developer finds the component in Figma, finds it in the deployed system, copies the code, and integrates it. Adapting it to the legacy app they were porting from was their job; getting the component right was mine.',
+      shots: [
+        { src: img('ds-home'), alt: 'CPQ 2.0 design system landing page', caption: 'The landing page. "Live" means what it says: every component on the site is the real React component, not a picture of one.' },
+        { src: img('ds-library'), alt: 'Component library overview with seven component families', caption: 'Seven component families: plan cards, accordion sections, the snapshot shell, the stepper header, buttons, select controls, and tables.' },
+        { src: img('ds-snapshot'), alt: 'Live Snapshot card documentation with anatomy breakdown', caption: 'The Live Snapshot, interactive, with its anatomy named part by part: badge header, toggle pill, scrollable body, rows, dividers, feature table, cart footer.' },
+        { src: img('ds-themes'), alt: 'HeaderTheme system with three built-in themes and their token values', caption: 'Three table themes as tokens, with every colour listed. The cart theme is the dark one; the other two are for everything else.' },
+      ],
+      note: 'I built this with AI assistance and I would not pretend otherwise. What I owned was the decisions: which primitives exist, what their states are, which tokens they read, and whether the JSX actually matched the Figma frame. The last part took most of the time.',
+    },
+    {
+      nav: 'Tables',
+      kind: 'figure',
+      chapter: '03 · The design system',
+      title: 'The tables are where a quoting tool lives or dies, so they got the most attention.',
+      fig: {
+        src: img('ds-tables'), alt: 'Tables & Data Grids page of the design system: a live DataTable with theme switcher, and its layout and interaction specs',
+        pins: [
+          { x: 22, y: 41, text: 'Switch the theme live. Dark, light and cart share one component.' },
+          { x: 22, y: 58, text: 'Row-level inclusion toggles. The green tick is "included in the quote".' },
+          { x: 42, y: 47, text: 'Column headers with inline edit indicators. Click a cell, edit, Enter to save, Esc to cancel.' },
+          { x: 24, y: 88, text: 'Layout and sizing written down: header height, row height, resize handles, minimum widths. These are the numbers developers asked for most.' },
+          { x: 55, y: 88, text: 'Interaction rules in the same place as the component, so nobody has to go looking in a separate document.' },
+        ],
+      },
+      legend: { title: 'What is on this screen', items: [], note: 'There are four table variants in the system: the generic DataTable, a themed TableCard, the CurrentPlanCard, and a 19-column CartServiceTable with inline editing. All four are the same component underneath.' },
+    },
+    {
+      nav: 'The fifteen-minute problem',
+      kind: 'decision',
+      chapter: '04 · Express Quote',
+      title: 'Three months after launch the data said something nobody had designed for.',
+      cost: {
+        label: 'What the post-launch data said',
+        items: [
+          'Business-provided data showed that customers on a call with an agent tended to lose focus after about fifteen minutes. They got pulled into other work, or the conversation drifted.',
+          'A CPQ 2.0 quote took around thirty minutes. For a four-site order that is fine. For a single shop that wants fibre, it is twice as long as the customer will stay with you.',
+          'So agent efficiency and customer attention turned out to be two different constraints. We had solved the first one.',
+        ],
+        ledger: [['Customer attention, reported', '~15 min'], ['CPQ 2.0 quote, reported', '~30 min'], ['Single-site share of quotes', 'large; exact figure not public']],
+      },
+      did: {
+        label: 'What we decided',
+        title: 'A second path, not a shorter version of the first.',
+        body: [
+          'Backend, business and UX agreed together to build Express Quote: a separate fast lane for eligible single-site orders, starting from the address instead of the opportunity. This was a cross-functional call made on post-launch data. It was not my idea alone and I would be lying if I wrote it that way.',
+          'The target was a quote in eight to ten minutes, inside the window the customer was actually giving us. The rule for which path you are on is decided by the system, not the agent: multi-site goes to CPQ 2.0, eligible single-site stays in Express Quote.',
+        ],
+      },
+    },
+    {
+      nav: 'Serviceability first',
+      kind: 'figure',
+      chapter: '04 · Express Quote',
+      title: 'Express Quote starts with the address, because the address decides everything else.',
+      fig: {
+        src: img('eq-step1'), alt: 'Express Quote, step 1 of 8: service check with address autocomplete, a map preview, and the live Quote Snapshot on the right',
+        pins: [
+          { x: 52, y: 20, text: 'Eight steps, but they are small. 13% done after typing an address.' },
+          { x: 26, y: 41, text: 'Type the address, pick the match, check. Copper or fibre comes back, and that filters every product on every later step.' },
+          { x: 59, y: 42, text: 'A map preview, because agents were quoting the wrong Aberdeen Cir / Dr / Ct and only finding out at install.' },
+          { x: 37, y: 65, text: 'Every later step is visible but closed. The next control appears as soon as the previous one is answered; there is no Continue button to find.' },
+          { x: 90, y: 45, text: 'The snapshot again, lighter, for a lighter job. Not qualified yet, nothing selected yet, and it says so.' },
+        ],
+      },
+      legend: { title: 'What is on this screen', items: [], note: 'This is agent-assisted quoting, not customer self-service. The agent can be on the phone or standing in the shop with the customer. The screen is built for someone who is also talking.' },
+    },
+    {
+      nav: 'The quote',
+      kind: 'figure',
+      chapter: '04 · Express Quote',
+      title: 'Eight steps later the quote is on screen, formatted the way the customer will receive it.',
+      fig: {
+        src: img('eq-review'), alt: 'Express Quote, step 8 of 8: review and share, showing the generated customer-facing quotation and the completed Quote Snapshot',
+        pins: [
+          { x: 37, y: 12, text: 'Steps 5 to 7 collapsed, each with its answer in the header: 1 add-on, promotion applied, customer attached.' },
+          { x: 39, y: 55, text: 'The quotation as the customer will see it: business, contact, location, line items, MRC and NRC, term, expiry. Generated from the same state as the snapshot.' },
+          { x: 90, y: 35, text: 'Snapshot complete. Fibre qualified, 24-month term, every charge and every discount itemised.' },
+          { x: 90, y: 77, text: 'Monthly total, one-time total. The two numbers the customer asks about.' },
+          { x: 66, y: 94, text: 'Submit. From here it goes to BRIM, to the customer, or to the internal system.' },
+        ],
+      },
+      legend: { title: 'What is on this screen', items: [], note: 'I built the React UI for this flow: the accordion, the snapshot, the review. The quotation PDF itself comes from a backend API that I defined the contract for and did not write. I also wrote the frontend-to-service spec: which API gets called when, what it returns, what the screen does with it. Integration developers wired it; backend engineers owned the services.' },
+    },
+    {
+      nav: 'What happened',
+      kind: 'ledger',
+      chapter: '05 · Outcomes',
+      title: 'These are reported numbers. I am including the ones I trust and saying how much.',
+      body: [
+        'CPQ 2.0 cut quote time from two and a half to three hours to about thirty minutes, and the business reported incorrect orders down by roughly 80% at that stage, across 700+ daily users. I was not given the measurement window or the exact definition of an incorrect order, so treat the 80% as the business\'s number, not mine.',
+        'Express Quote took eligible single-site quotes to eight to ten minutes. With real sales agents and real customers, order accuracy on those quotes came in at 96%. Agents who used to call the customer three or four times to clarify were getting it done in one call. That last one is an observation from the team, not a study.',
+      ],
+      rows: [
+        { k: 'Quote time, CPQ 1.0 → 2.0', v: '2.5–3 h → ~30 min' },
+        { k: 'Incorrect orders, by CPQ 2.0', v: '~80% fewer (business-reported)' },
+        { k: 'Quote time, Express Quote', v: '~8–10 min' },
+        { k: 'Single-site order accuracy, Express Quote', v: '96% (reported)' },
+        { k: 'Customer clarification calls', v: '3–4 → 1 (observed)' },
+        { k: 'Screens designed', v: '~560' },
+        { k: 'A/B test against the old tool', v: 'none', tone: 'red' },
+      ],
+    },
+    {
+      nav: 'What I owned',
+      kind: 'ledger',
+      chapter: '06 · Ownership',
+      title: 'One designer, three hundred developers. Here is exactly which parts were mine.',
+      body: [
+        'I would rather be precise about this than impressive. On CPQ 2.0 I owned the information architecture, the flows, the UI, the component library, the interaction guidelines and the design system as a deployed site. Developers built the application and integrated it. On Express Quote I owned all of that and also wrote the React frontend.',
+        'The thing I am proudest of is not a screen. It is that the design system was the handoff. Nobody had to interpret a Figma file; they copied the component that was already correct.',
+      ],
+      rows: [
+        { k: 'IA, flows, UI · CPQ 2.0', v: 'mine' },
+        { k: 'Design system, deployed with JSX', v: 'mine, AI-assisted' },
+        { k: 'CPQ 2.0 application build & integration', v: 'developers' },
+        { k: 'Express Quote React UI', v: 'mine' },
+        { k: 'Frontend-to-service contracts', v: 'mine' },
+        { k: 'APIs, PDF generation, backend systems', v: 'backend engineers' },
+        { k: 'Express Quote as an idea', v: 'joint call, on data' },
+      ],
+    },
+    {
+      nav: 'What this demonstrates',
+      kind: 'close',
+      chapter: '07 · What this demonstrates',
+      title: 'The win was not a shorter version of the same process. It was noticing that two different jobs had been given one tool.',
+      points: [
+        ['Sequencing over simplification', 'A four-site order is complicated. I ordered the complexity and automated what a system could decide, instead of pretending it was simple.'],
+        ['Persistent context', 'The Live Snapshot took the memory load off the agent. The same idea, lighter, carried into Express Quote.'],
+        ['Reading the data after launch', 'Fifteen minutes of customer attention against a thirty-minute quote. The number was in the business data; the job was to take it seriously.'],
+        ['Two paths, decided by the system', 'Multi-site or single-site is not a choice the agent should make. The address makes it.'],
+        ['A design system as the handoff', 'Deployed, live, with the JSX. At 1:300, a Figma file is not a handoff.'],
+        ['Frontend I wrote', 'Express Quote is the first production UI I shipped in code, not just in Figma.'],
+      ],
+      quote: 'The old tool asked the agent to remember everything. The new ones remember for them, and get out of the way when the customer is in a hurry.',
+    },
+  ],
+};

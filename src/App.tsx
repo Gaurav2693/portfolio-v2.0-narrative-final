@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from '@/pages/home';
-import CostOfAttention from '@/pages/cost-of-attention';
-import Cpq from '@/pages/cpq';
+import CaseStudyPage from '@/pages/case-study';
+import { coa } from '@/lib/coa';
+import { cpq } from '@/lib/cpq';
 import Build from '@/pages/build';
 
 function ScrollManager() {
@@ -23,8 +24,8 @@ export default function App() {
       <ScrollManager />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/work/cost-of-attention" element={<CostOfAttention />} />
-        <Route path="/work/cpq" element={<Cpq />} />
+        <Route path="/work/cost-of-attention" element={<CaseStudyPage study={coa} />} />
+        <Route path="/work/cpq" element={<CaseStudyPage study={cpq} />} />
         <Route path="/builds/:slug" element={<Build />} />
         <Route path="*" element={<Home />} />
       </Routes>

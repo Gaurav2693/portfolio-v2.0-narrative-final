@@ -41,13 +41,12 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'cpq',
     eyebrow: 'Brightspeed · Sales quoting',
-    title: 'Brightquote CPQ',
-    lead: 'Turning a 47-field quoting form into a guided flow that sales reps can finish on a call.',
-    draft: 'Draft · being rewritten in the same format',
+    title: 'CPQ 2.0 & Express Quote',
+    lead: 'A 47-step quoting tool rebuilt as four stages, then a second, faster path once the data showed customers stop listening at fifteen minutes.',
     facts: [
-      ['Role', 'Design lead, first production design system'],
-      ['Decision', 'Conversational flow over a denser form'],
-      ['Status', 'Shipped · shown sanitised under NDA'],
+      ['Role', 'Sole designer · design system · Express Quote frontend'],
+      ['Decision', 'Two paths decided by the system, not one shorter path'],
+      ['Status', 'Both shipped · 700+ daily users'],
     ],
     gated: true,
   },

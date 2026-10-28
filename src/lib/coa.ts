@@ -1,26 +1,15 @@
 // The Cost of Attention — slide content. Edit copy here, not in the component.
-// Pin positions are % of the screenshot (left, top). Keep them on the thing they describe.
 
-export type Pin = { x: number; y: number; text: string };
-export type Fig = { src: string; alt: string; pins?: Pin[] };
-
-export type Slide = { nav: string } & (
-  | { kind: 'title'; eyebrow: string; title: string; lead: string; facts: [string, string][]; art?: string }
-  | { kind: 'text'; chapter: string; title: string; body: string[]; aside?: { label: string; value: string; tone?: 'red' }[]; quote?: string; art?: string }
-  | { kind: 'split'; chapter: string; title: string; left: { label: string; title: string; body: string; note: string; tone?: 'red' }; right: { label: string; title: string; body: string; note: string }; foot?: string; art?: string }
-  | { kind: 'figure'; chapter: string; title: string; art?: string; fig: Fig; legend: { title: string; items: string[]; note?: string } }
-  | { kind: 'states'; chapter: string; title: string; rows: { label: string; src: string; alt: string }[]; legend: { title: string; items: string[]; note?: string } }
-  | { kind: 'decision'; chapter: string; title: string; cost: { items: string[]; ledger: [string, string][] }; did: { title: string; body: string[] }; art?: string }
-  | { kind: 'ledger'; chapter: string; title: string; body: string[]; rows: { k: string; v: string; tone?: 'red' }[] }
-  | { kind: 'close'; chapter: string; title: string; points: [string, string][]; quote: string; art?: string }
-);
-
+import type { Slide, Study } from '@/lib/study';
 import { asset } from '@/lib/assets';
 const img = (n: string) => asset(`coa/${n}.png`);
 
-export const coa = {
+export const coa: Study = {
+  slug: 'cost-of-attention',
   title: 'The Cost of Attention',
   eyebrow: 'Brightspeed · Business Hub + Business 360',
+  artDir: 'coa',
+  next: { to: '/work/cpq', label: 'Next study: CPQ 2.0 & Express Quote' },
   slides: <Slide[]>[
     {
       nav: 'Overview',
