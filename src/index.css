@@ -78,3 +78,6 @@ button:not(:disabled), a { cursor: pointer; }
 .clip { mix-blend-mode: multiply; filter: contrast(1.2); }
 .dark .clip { filter: invert(1) hue-rotate(180deg) contrast(1.2); mix-blend-mode: screen; }
 @media (prefers-reduced-motion: reduce) { .clip { animation: none; } }
+
+/* Access gate: wrong code nudges the field. */
+@keyframes gate-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }

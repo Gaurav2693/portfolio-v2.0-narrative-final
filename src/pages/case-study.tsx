@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 import { Clip } from '@/components/clip';
 import { Header, Footer } from '@/components/chrome';
 import type { Slide, Study } from '@/lib/study';
+import { Gate, useGate } from '@/components/gate';
 import { site } from '@/lib/site';
 import { asset } from '@/lib/assets';
 
@@ -287,6 +288,23 @@ function buildTree(slides: Slide[]): TreeNode[] {
 }
 
 export default function CaseStudyPage({ study }: { study: Study }) {
+  const { open, unlock } = useGate();
+  if (!open) return <GatedShell study={study} onUnlock={unlock} />;
+  return <StudyBody study={study} />;
+}
+
+function GatedShell({ study, onUnlock }: { study: Study; onUnlock: () => void }) {
+  useEffect(() => { document.title = `${study.title} — ${site.name}`; }, [study.title]);
+  return (
+    <main className="mx-auto max-w-[1200px] px-6 sm:px-10 lg:px-16">
+      <Header />
+      <Gate title={study.title} onUnlock={onUnlock} />
+      <Footer />
+    </main>
+  );
+}
+
+function StudyBody({ study }: { study: Study }) {
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
   const [pic, setPic] = useState<Pic | null>(null);
