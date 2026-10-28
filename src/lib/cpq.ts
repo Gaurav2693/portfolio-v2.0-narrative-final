@@ -16,8 +16,8 @@ export const cpq: Study = {
       kind: 'title',
       eyebrow: 'Case study · Brightspeed',
       title: 'CPQ 2.0 & Express Quote',
-      lead: 'A quoting tool that took agents two and a half hours per quote, rebuilt as a four-stage flow that takes thirty minutes. Then, when the data showed customers stop paying attention at fifteen, a second, faster path for the simple cases. I was the only designer on both, and on the second one I wrote the frontend.',
-      facts: [['Role', 'Sole designer · ~300 developers · 560 screens'], ['Also', 'Design system from scratch · Express Quote React UI'], ['Status', 'CPQ 2.0 shipped, 700+ daily users · Express Quote shipped'], ['System', 'cpq-design-system-v20.vercel.app']],
+      lead: 'A quoting tool that took agents two and a half hours per quote, rebuilt as a four-stage flow that takes thirty minutes. Then a second, faster path once the data showed customers stop listening at fifteen. I was the only designer on both. Somewhere in the middle I stopped handing over Figma files and started handing over code, and this is the story of how that happened.',
+      facts: [['Role', 'Sole designer · ~300 developers · 560 screens'], ['Arc', 'Product thinking → systems thinking → engineering ownership'], ['Status', 'CPQ 2.0 shipped, 700+ daily users · Express Quote shipped'], ['System', 'cpq-design-system-v20.vercel.app']],
       art: 'whiteboard',
     },
     {
@@ -56,7 +56,7 @@ export const cpq: Study = {
     {
       nav: 'Four stages',
       kind: 'figure',
-      chapter: '02 · CPQ 2.0',
+      chapter: '02 · Product thinking · CPQ 2.0',
       title: 'Forty-seven steps became four stages. The agent is on the last one here.',
       fig: {
         src: img('cpq-step4'), alt: 'CPQ 2.0, stage 4 of 4: Schedule Visit & Submit Order, with the stepper on top, accordion forms on the left and the dark Live Snapshot panel on the right',
@@ -74,16 +74,34 @@ export const cpq: Study = {
     {
       nav: 'The system',
       kind: 'split',
-      chapter: '02 · CPQ 2.0',
+      chapter: '02 · Product thinking · CPQ 2.0',
       title: 'The interaction model: stepper on top, forms on the left, memory on the right.',
       left: { label: 'Left · accordion forms', title: 'One section at a time.', body: 'Each stage is a column of collapsible sections. Only the one you are working in is open. The full complexity of a four-site order is still there, but you meet it one section at a time, in an order that makes sense, with the fields the system can fill already filled.', note: 'Why: the old tool showed everything at once and the agent had to find the next thing to do.' },
       right: { label: 'Right · Live Snapshot', title: 'The tool remembers, so the agent does not have to.', body: 'A persistent dark panel with the opportunity, account, quote ID, imported Salesforce data and everything the agent has entered. A Service Cart button opens a modal with the site-by-site, BAN-by-BAN detail: services, quantities, feature codes, MRC, NRC, totals. The modal exists because the panel would otherwise be a mile long.', note: 'Why: the agent was being asked to hold the order in their head. Now it is on the screen.' },
       foot: 'The complexity did not go away. A four-site telecom order is complicated. What changed is that it was sequenced, the parts a system could decide were automated, and the rest was shown only when it mattered.',
     },
     {
+      nav: 'The prototype',
+      kind: 'text',
+      chapter: '02 · Product thinking · CPQ 2.0',
+      title: 'Partway through CPQ 2.0 I stopped handing over screens and started handing over a prototype that behaved.',
+      body: [
+        'The first handoffs were Figma. Then I learned enough React and Tailwind to build interactive prototypes and put them on Vercel, and I started modelling the flow the way a state machine would see it: which states exist, what moves you between them, what the agent sees in each. The prototypes did not talk to real APIs and they were not production code. Developers sometimes asked for "the complete code" anyway, and I had to keep explaining that this was the North Star for behaviour, not the frontend.',
+        'Before modelling anything I read the BRIM and AMS API documentation to learn which fields existed, what values they allowed, and where the system would say no. When the experience needed something the API did not have, I got the business to agree on the experience first, then sat with frontend and backend teams to define the change. I coordinated those changes; I did not write them.',
+        'Here is the limitation, and I would rather say it than have you find it: CPQ 2.0 did not ship exactly as the Figma or the prototype. Engineering and system constraints changed things. The design system and the prototype narrowed the gap. They did not close it.',
+      ],
+      aside: [
+        { label: 'Prototype stack', value: 'React · Tailwind · Vercel' },
+        { label: 'Modelled as', value: 'states and transitions' },
+        { label: 'Connected to real APIs', value: 'no' },
+        { label: 'Shipped as designed', value: 'not entirely', tone: 'red' },
+      ],
+      quote: 'Engineering kept ownership of the frontend. I kept asking why the behaviour had drifted. Both of us were right.',
+    },
+    {
       nav: 'Design system',
       kind: 'grid',
-      chapter: '03 · The design system',
+      chapter: '03 · Systems thinking · The design system',
       title: 'CPQ 2.0 needed a component library that did not exist, so I built one and deployed it.',
       intro: 'There were around 300 developers on the programme and one designer. A Figma file was not going to survive that ratio. So I built the design system as a deployed React site: every component rendered live, with its tokens, its states and copy-paste JSX. A developer finds the component in Figma, finds it in the deployed system, copies the code, and integrates it. Adapting it to the legacy app they were porting from was their job; getting the component right was mine.',
       shots: [
@@ -97,7 +115,7 @@ export const cpq: Study = {
     {
       nav: 'Tables',
       kind: 'figure',
-      chapter: '03 · The design system',
+      chapter: '03 · Systems thinking · The design system',
       title: 'The tables are where a quoting tool lives or dies, so they got the most attention.',
       fig: {
         src: img('ds-tables'), alt: 'Tables & Data Grids page of the design system: a live DataTable with theme switcher, and its layout and interaction specs',
@@ -112,9 +130,22 @@ export const cpq: Study = {
       legend: { title: 'What is on this screen', items: [], note: 'There are four table variants in the system: the generic DataTable, a themed TableCard, the CurrentPlanCard, and a 19-column CartServiceTable with inline editing. All four are the same component underneath.' },
     },
     {
+      nav: 'Why not the frontend?',
+      kind: 'text',
+      chapter: '04 · Turning point · The question',
+      title: 'Building the design system changed what I thought my job was.',
+      body: [
+        'The reason I built it was concrete. A Figma handoff loses the visual grammar: the 8px that is actually 12, the alignment that is "close enough", the component that gets rebuilt slightly differently in every screen. Giving developers a deployed component with its JSX meant they could copy the thing that was already right instead of reinterpreting a picture of it.',
+        'It worked, mostly. And then CPQ 2.0 still shipped with drift, because the people writing the frontend were not the person who knew what it was supposed to do. That is when the question stopped being rhetorical.',
+        'I did not have an answer yet. Express Quote became the place to find one.',
+      ],
+      quote: 'If I can give them the component code, why can\'t I give them the frontend?',
+      art: 'whiteboard',
+    },
+    {
       nav: 'The fifteen-minute problem',
       kind: 'decision',
-      chapter: '04 · Express Quote',
+      chapter: '05 · Turning point · The fifteen-minute problem',
       title: 'Three months after launch the data said something nobody had designed for.',
       cost: {
         label: 'What the post-launch data said',
@@ -137,7 +168,7 @@ export const cpq: Study = {
     {
       nav: 'Serviceability first',
       kind: 'figure',
-      chapter: '04 · Express Quote',
+      chapter: '06 · Engineering ownership · Express Quote',
       title: 'Express Quote starts with the address, because the address decides everything else.',
       fig: {
         src: img('eq-step1'), alt: 'Express Quote, step 1 of 8: service check with address autocomplete, a map preview, and the live Quote Snapshot on the right',
@@ -149,12 +180,12 @@ export const cpq: Study = {
           { x: 90, y: 45, text: 'The snapshot again, lighter, for a lighter job. Not qualified yet, nothing selected yet, and it says so.' },
         ],
       },
-      legend: { title: 'What is on this screen', items: [], note: 'This is agent-assisted quoting, not customer self-service. The agent can be on the phone or standing in the shop with the customer. The screen is built for someone who is also talking.' },
+      legend: { title: 'What is on this screen', items: [], note: 'Eligibility runs through every later step too. One location in Nebraska, for example, could take up to five static IPs and no more. The add-on step offered one, two or five, with a plain line saying more were not available at that address. The constraint came from serviceability; the job was to turn it into guidance instead of a rejected order.' },
     },
     {
       nav: 'The quote',
       kind: 'figure',
-      chapter: '04 · Express Quote',
+      chapter: '06 · Engineering ownership · Express Quote',
       title: 'Eight steps later the quote is on screen, formatted the way the customer will receive it.',
       fig: {
         src: img('eq-review'), alt: 'Express Quote, step 8 of 8: review and share, showing the generated customer-facing quotation and the completed Quote Snapshot',
@@ -166,12 +197,30 @@ export const cpq: Study = {
           { x: 66, y: 94, text: 'Submit. From here it goes to BRIM, to the customer, or to the internal system.' },
         ],
       },
-      legend: { title: 'What is on this screen', items: [], note: 'I built the React UI for this flow: the accordion, the snapshot, the review. The quotation PDF itself comes from a backend API that I defined the contract for and did not write. I also wrote the frontend-to-service spec: which API gets called when, what it returns, what the screen does with it. Integration developers wired it; backend engineers owned the services.' },
+      legend: { title: 'What is on this screen', items: [], note: 'This time the team asked me for frontend code. I built the React UI for the flow: the accordion, the snapshot, the review. I also wrote the frontend-to-service spec: which API is called when, what comes back, what the screen does with it. Integration developers wired the calls; backend engineers owned the services and the quotation PDF. By my estimate about 90% of the frontend I wrote went to production unchanged. That is my estimate from reading the shipped code, not a diff.' },
+    },
+    {
+      nav: 'What carried into production',
+      kind: 'ledger',
+      chapter: '06 · Engineering ownership · Express Quote',
+      title: 'Writing the frontend meant owning its cost, not just its look.',
+      body: [
+        'Reading the API contracts changed how I designed. Some interactions I wanted were priced at around three sprints, with sprints running twelve to fifteen days. For most of those I simplified the interaction myself before anyone had to ask. In two or three cases the business wanted the original kept, and it was. I do not want to tell this as "every three-sprint feature became one sprint". It was not that clean.',
+        'What I can say is that the frontend I wrote is substantially the frontend that runs. Roughly ninety percent unchanged, the rest adjusted by developers for integration. It is production code with my name on the commits, not a clickable prototype that someone rebuilt.',
+      ],
+      rows: [
+        { k: 'React frontend, Express Quote', v: 'written by me' },
+        { k: 'Carried into production unchanged', v: '~90% (my estimate)' },
+        { k: 'Adjusted by developers', v: '~10%, integration' },
+        { k: 'API integration code', v: 'integration developers' },
+        { k: 'Services, quotation PDF', v: 'backend engineers' },
+        { k: 'Interactions simplified on cost', v: 'several; two or three kept by the business' },
+      ],
     },
     {
       nav: 'What happened',
       kind: 'ledger',
-      chapter: '05 · Outcomes',
+      chapter: '07 · Outcomes',
       title: 'These are reported numbers. I am including the ones I trust and saying how much.',
       body: [
         'CPQ 2.0 cut quote time from two and a half to three hours to about thirty minutes, and the business reported incorrect orders down by roughly 80% at that stage, across 700+ daily users. I was not given the measurement window or the exact definition of an incorrect order, so treat the 80% as the business\'s number, not mine.',
@@ -190,7 +239,7 @@ export const cpq: Study = {
     {
       nav: 'What I owned',
       kind: 'ledger',
-      chapter: '06 · Ownership',
+      chapter: '08 · Ownership',
       title: 'One designer, three hundred developers. Here is exactly which parts were mine.',
       body: [
         'I would rather be precise about this than impressive. On CPQ 2.0 I owned the information architecture, the flows, the UI, the component library, the interaction guidelines and the design system as a deployed site. Developers built the application and integrated it. On Express Quote I owned all of that and also wrote the React frontend.',
@@ -199,8 +248,9 @@ export const cpq: Study = {
       rows: [
         { k: 'IA, flows, UI · CPQ 2.0', v: 'mine' },
         { k: 'Design system, deployed with JSX', v: 'mine, AI-assisted' },
+        { k: 'React/Tailwind behavioural prototypes · CPQ 2.0', v: 'mine · North Star, not production' },
         { k: 'CPQ 2.0 application build & integration', v: 'developers' },
-        { k: 'Express Quote React UI', v: 'mine' },
+        { k: 'Express Quote React UI', v: 'mine · ~90% to production' },
         { k: 'Frontend-to-service contracts', v: 'mine' },
         { k: 'APIs, PDF generation, backend systems', v: 'backend engineers' },
         { k: 'Express Quote as an idea', v: 'joint call, on data' },
@@ -209,17 +259,17 @@ export const cpq: Study = {
     {
       nav: 'What this demonstrates',
       kind: 'close',
-      chapter: '07 · What this demonstrates',
-      title: 'The win was not a shorter version of the same process. It was noticing that two different jobs had been given one tool.',
+      chapter: '09 · What this demonstrates',
+      title: 'Three chapters: make the complex manageable, make the intent executable, then ship the intended thing yourself.',
       points: [
         ['Sequencing over simplification', 'A four-site order is complicated. I ordered the complexity and automated what a system could decide, instead of pretending it was simple.'],
         ['Persistent context', 'The Live Snapshot took the memory load off the agent. The same idea, lighter, carried into Express Quote.'],
         ['Reading the data after launch', 'Fifteen minutes of customer attention against a thirty-minute quote. The number was in the business data; the job was to take it seriously.'],
         ['Two paths, decided by the system', 'Multi-site or single-site is not a choice the agent should make. The address makes it.'],
         ['A design system as the handoff', 'Deployed, live, with the JSX. At 1:300, a Figma file is not a handoff.'],
-        ['Frontend I wrote', 'Express Quote is the first production UI I shipped in code, not just in Figma.'],
+        ['From design fidelity to frontend ownership', 'The design system narrowed the gap and still left drift. Writing the Express Quote frontend closed it, for that one product. That is the arc.'],
       ],
-      quote: 'The old tool asked the agent to remember everything. The new ones remember for them, and get out of the way when the customer is in a hurry.',
+      quote: 'I started this project handing over pictures of interfaces. I finished it handing over the interface.',
     },
   ],
 };

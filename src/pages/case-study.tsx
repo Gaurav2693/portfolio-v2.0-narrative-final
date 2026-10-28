@@ -339,7 +339,7 @@ export default function CaseStudyPage({ study }: { study: Study }) {
               const open = node.items.some((it) => it.i === active);
               return (
                 <div key={node.chapter} className="grid gap-1.5">
-                  <button type="button" onClick={() => go(node.items[0].i)} className={`text-left leading-5 transition-colors ${open ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}>{node.chapter}</button>
+                  <button type="button" onClick={() => go(node.items[0].i)} className={`inline-flex items-start gap-2 text-left leading-5 transition-colors ${open ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}>{/turning point/i.test(node.chapter) && <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />}<span>{node.chapter}</span></button>
                   {node.items.length > 1 && (
                     <ul className="ml-2 grid gap-1 border-l border-line">
                       {node.items.map((it) => (
@@ -361,7 +361,7 @@ export default function CaseStudyPage({ study }: { study: Study }) {
           {study.slides.map((sl, k) => (
             <section key={k} id={`s${k + 1}`} data-sec={k} className={`scroll-mt-28 border-b border-line py-14 ${k === 0 ? 'min-h-[70vh] content-center' : ''}`}>
               <div className="mb-6 flex items-baseline justify-between gap-4">
-                <span className={eyebrow}>{'chapter' in sl ? sl.chapter : 'Case study'}</span>
+                <span className={`${eyebrow} inline-flex items-center gap-2`}>{'chapter' in sl && /turning point/i.test(sl.chapter) && <span aria-hidden className="size-1.5 rounded-full bg-accent" />}{'chapter' in sl ? sl.chapter : 'Case study'}</span>
                 <span className="text-[11px] tabular-nums text-ink-3">{String(k + 1).padStart(2, '0')} / {study.slides.length}</span>
               </div>
               <Body s={sl} dir={study.artDir} />
