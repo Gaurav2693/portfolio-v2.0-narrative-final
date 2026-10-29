@@ -130,7 +130,7 @@ export default function Home() {
         <Reveal><SectionLabel number="03">About</SectionLabel></Reveal>
         <div className="grid items-start gap-10 md:grid-cols-[1fr_272px]">
           <Reveal stagger={0.1} className="max-w-[640px] space-y-5 text-base leading-7">
-            <p>Senior product designer at Infinite Computer Solutions, embedded as the only UX designer on Brightspeed’s business platforms: quoting, billing, and the tools agents use on calls.</p>
+            <p>Senior product designer at Infinite Computer Solutions, embedded as the only UX designer on a US telecom’s business platforms: quoting, billing, and the tools agents use on calls.</p>
             <p>Seven years in, self-taught across design and engineering. I prototype the interfaces I design, in React, Three.js and Babylon.js, because a working thing settles an argument faster than a mock does.</p>
             <p>I use AI heavily to build and to draw. The character on this page is generated to my own definition, and I’d rather say that than hide it.</p>
             <p className="text-ink-2">Based in {site.location}.</p>

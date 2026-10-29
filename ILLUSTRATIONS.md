@@ -17,7 +17,7 @@ in it (the agent). Right screen has a calm billing tile with a small carousel an
 customer). Under both, a single bracket joins them to one small database/cylinder icon: same data,
 different hierarchy. No character. 16:9, elements centred, generous margin.
 
-## 2. Case study card — Brightquote CPQ (replaces `CpqArt`)
+## 2. Case study card — CPQ (replaces `CpqArt`)
 Left: a tall form with many rows of tiny fields, slightly overwhelming. An arrow to the right.
 Right: three speech bubbles stacked like a chat, the last one with a tick. No character. 16:9.
 

@@ -28,7 +28,7 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'cost-of-attention',
-    eyebrow: 'Brightspeed · Business Hub + Business 360',
+    eyebrow: 'US telecom · Business Hub + Business 360',
     title: 'The Cost of Attention',
     lead: 'Designing billing urgency that two different people can live with: the agent who has to collect, and the customer who still has a business to run.',
     facts: [
@@ -40,7 +40,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'cpq',
-    eyebrow: 'Brightspeed · Sales quoting',
+    eyebrow: 'US telecom · Sales quoting',
     title: 'CPQ 2.0 & Express Quote',
     lead: 'A 47-step quoting tool rebuilt as four stages, then a second, faster path once the data showed customers stop listening at fifteen minutes.',
     facts: [

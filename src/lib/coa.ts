@@ -7,14 +7,14 @@ const img = (n: string) => asset(`coa/${n}.png`);
 export const coa: Study = {
   slug: 'cost-of-attention',
   title: 'The Cost of Attention',
-  eyebrow: 'Brightspeed · Business Hub + Business 360',
+  eyebrow: 'US telecom · Business Hub + Business 360',
   artDir: 'coa',
   next: { to: '/work/cpq', label: 'Next study: CPQ 2.0 & Express Quote' },
   slides: <Slide[]>[
     {
       nav: 'Overview',
       kind: 'title',
-      eyebrow: 'Case study · Brightspeed',
+      eyebrow: 'Case study · US telecom',
       title: 'The Cost of Attention',
       lead: 'A business customer owes money across several accounts. One person has to collect it, another has to keep running their business while they owe it. I was asked for a banner. This is what I did instead, and what it cost.',
       facts: [['Role', 'Sole UX designer, embedded'], ['Surfaces', 'Agent (B360) · Customer (Hub)'], ['Owned', 'Interaction model, hierarchy, phasing'], ['Status', 'Agent side shipped · Hub phase 1 in build']],

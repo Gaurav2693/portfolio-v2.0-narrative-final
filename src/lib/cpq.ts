@@ -7,14 +7,14 @@ const img = (n: string) => asset(`cpq/${n}.png`);
 export const cpq: Study = {
   slug: 'cpq',
   title: 'CPQ 2.0 & Express Quote',
-  eyebrow: 'Brightspeed · Sales quoting',
+  eyebrow: 'US telecom · Sales quoting',
   artDir: 'cpq',
   next: { to: '/work/cost-of-attention', label: 'Next study: The Cost of Attention' },
   slides: [
     {
       nav: 'Overview',
       kind: 'title',
-      eyebrow: 'Case study · Brightspeed',
+      eyebrow: 'Case study · US telecom',
       title: 'CPQ 2.0 & Express Quote',
       lead: 'A quoting tool that took agents two and a half hours per quote, rebuilt as a four-stage flow that takes thirty minutes. Then a second, faster path once the data showed customers stop listening at fifteen. I was the only designer on both. Somewhere in the middle I stopped handing over Figma files and started handing over code, and this is the story of how that happened.',
       facts: [['Role', 'Sole designer · ~300 developers · 560 screens'], ['Arc', 'Product thinking → systems thinking → engineering ownership'], ['Status', 'CPQ 2.0 shipped, 700+ daily users · Express Quote shipped'], ['System', 'cpq-design-system-v20.vercel.app']],
@@ -26,7 +26,7 @@ export const cpq: Study = {
       chapter: '01 · The problem',
       title: 'Forty-seven steps in ServiceNow, and a quote that took most of an afternoon.',
       body: [
-        'An agent at Brightspeed helps a small or mid-size business buy connectivity and voice services. The opportunity starts in Salesforce; the quote gets built in CPQ. Picture a hospital with four branches. Each site can have different services, different product eligibility (copper here, fibre there), different billing accounts. The agent has to get all of that right without calling the customer back four times.',
+        'An agent at the telecom helps a small or mid-size business buy connectivity and voice services. The opportunity starts in Salesforce; the quote gets built in CPQ. Picture a hospital with four branches. Each site can have different services, different product eligibility (copper here, fibre there), different billing accounts. The agent has to get all of that right without calling the customer back four times.',
         'CPQ 1.0 was a ServiceNow workflow with around 47 steps. Data came from BRIM and AMS and the APIs failed often enough that agents had learned to expect it. Nothing was carried forward between steps, so the agent had to remember what they had entered, or write it down. Invalid product combinations were easy to pick and expensive to unpick later. One quote took two and a half to three hours.',
         'In the first walkthrough someone said the chance of an error on a quote was "about 95%". I have never been able to pin down how that was measured, so I do not use it as a number. I use it as a description of how people felt about the tool.',
       ],
